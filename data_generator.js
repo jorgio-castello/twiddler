@@ -13,6 +13,8 @@ streams.users.mracus = [];
 streams.users.douglascalhoun = [];
 window.users = Object.keys(streams.users);
 
+let tweetSchedulerBool = false;
+
 // utility function for adding tweets to our data structures
 var addTweet = function(newTweet){
   var username = newTweet.user;
@@ -45,23 +47,25 @@ var generateRandomTweet = function(){
   tweet.created_at = new Date();
   addTweet(tweet);
 
-  //Create a click event to simulate on the #newTweetListener div and pass along the new tweet in the event object
-  let e = jQuery.Event('click');          //1. Declare variable e that represents a 'click' event in jQuery
-  e.tweet = tweet;                        //2. Add the newly generated tweet as a property to this event
-  jQuery('#newTweetListener').trigger(e); //3. Trigger the click event on #newTweetListener
+  if(tweetSchedulerBool) {
+    //Create a click event to simulate on the #newTweetListener div and pass along the new tweet in the event object
+    let e = jQuery.Event('click');          //1. Declare variable e that represents a 'click' event in jQuery
+    e.tweet = tweet;                        //2. Add the newly generated tweet as a property to this event
+    jQuery('#newTweetListener').trigger(e); //3. Trigger the click event on #newTweetListener
+  }
 };
 
-setTimeout(generateRandomTweet, 3000);
+for(var i = 0; i < 10; i++){
+  generateRandomTweet();
+}
 
-// for(var i = 0; i < 10; i++){
-//   generateRandomTweet();
-// }
+tweetSchedulerBool = true;
 
-// var scheduleNextTweet = function(){
-//   generateRandomTweet();
-//   setTimeout(scheduleNextTweet, Math.random() * 1500);
-// };
-// scheduleNextTweet();
+var scheduleNextTweet = function(){
+  generateRandomTweet();
+  setTimeout(scheduleNextTweet, Math.random() * 1500);
+};
+scheduleNextTweet();
 
 // utility function for letting students add "write a tweet" functionality
 // (note: not used by the rest of this file.)
