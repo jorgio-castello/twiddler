@@ -57,3 +57,7 @@ html {
 .tweetElementUser:hover {
   text-decoration: underline;
 }
+
+.tweetElementMessage {
+  margin-top: 0.5rem;
+}
