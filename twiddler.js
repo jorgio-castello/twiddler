@@ -40,7 +40,7 @@ function generateTweet(tweet) {
   //Declare the inputs of a tweet: user, message, and timeStamp
   let $user = $(`<div class = "tweetElementUser">@${tweet.user}</div>`);
   let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
-  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(new Date())}</div>`);
+  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at)}</div>`);
 
   //Declare $tweet div
   let $tweet = $('<div class = "tweetElement"></div>');
@@ -51,5 +51,5 @@ function generateTweet(tweet) {
   $timeStamp.appendTo($tweet);
 
   //Append $tweet to tweetContainer
-  $tweet.appendTo($('.tweetContainer'));
+  $tweet.prependTo($('.tweetContainer'));
 }
