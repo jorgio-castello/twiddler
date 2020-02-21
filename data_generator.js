@@ -44,11 +44,18 @@ var generateRandomTweet = function(){
   tweet.message = randomMessage();
   tweet.created_at = new Date();
   addTweet(tweet);
+
+  //Create a click event to simulate on the #newTweetListener div and pass along the new tweet in the event object
+  let e = jQuery.Event('click');          //1. Declare variable e that represents a 'click' event in jQuery
+  e.tweet = tweet;                        //2. Add the newly generated tweet as a property to this event
+  jQuery('#newTweetListener').trigger(e); //3. Trigger the click event on #newTweetListener
 };
 
-for(var i = 0; i < 2; i++){
-  generateRandomTweet();
-}
+setTimeout(generateRandomTweet, 3000);
+
+// for(var i = 0; i < 10; i++){
+//   generateRandomTweet();
+// }
 
 // var scheduleNextTweet = function(){
 //   generateRandomTweet();
