@@ -1,6 +1,6 @@
 $(document).ready(function(){
-  var $body = $('body');
-  $body.html('');
+  // var $body = $('body');
+  // $body.html('');
 
   var index = 0;
   var tweet = streams.home[index];
@@ -45,5 +45,5 @@ function generateTweet(tweet) {
   //Declare jQuery variables and push to DOM
   let $tweet = $('<div></div>');
   $tweet.text(user + message + timeStamp);
-  $tweet.appendTo($('body'));
+  $tweet.appendTo($('.tweetContainer'));
 }
