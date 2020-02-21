@@ -23,6 +23,7 @@ function generateTimeStamp(date) {
   //2c.Re-assign hours / amPM based on the following:
   //if hours = 0, hours should equal 12, and amPM should equal AM
   //else if hours > 12, hours should equal hours less 12, and time should be PM
+  if(hours === 12) amPM = 'PM';
   if(hours > 12) hours -= 12, amPM = 'PM';
   if(hours === 0) hours = 12;
 
@@ -37,12 +38,16 @@ function generateTweet(tweet) {
   //Declare the inputs of a tweet: user, message, and timeStamp
   let $user = $(`<div class = "tweetElementUser">@${tweet.user}</div>`);
   let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
-  // let timeStamp = generateTimeStamp(new Date());
+  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(new Date())}</div>`);
 
-  //Declare jQuery variables and push to DOM
-  // let $tweet = $(`<div class = "tweetElement">${$user}</div>`);
+  //Declare $tweet div
   let $tweet = $('<div class = "tweetElement"></div>');
+
+  //Append tweet elements to $tweet
   $user.appendTo($tweet);
   $message.appendTo($tweet);
+  $timeStamp.appendTo($tweet);
+
+  //Append $tweet to tweetContainer
   $tweet.appendTo($('.tweetContainer'));
 }
