@@ -58,6 +58,13 @@ html {
   text-decoration: underline;
 }
 
-.tweetElementMessage {
+.tweetElementMessage, .tweetElementTimestamp  {
   margin-top: 0.5rem;
+}
+
+.tweetElementTimestamp {
+  color: gray;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  font-weight: 300;
 }
