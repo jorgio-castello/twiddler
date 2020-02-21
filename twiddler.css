@@ -47,3 +47,13 @@ html {
   border-radius: 5px;
   padding: 1rem;
 }
+
+.tweetElementUser {
+  color: lightskyblue;
+  font-weight: 700;
+  display: block;
+}
+
+.tweetElementUser:hover {
+  text-decoration: underline;
+}
