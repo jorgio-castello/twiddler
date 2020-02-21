@@ -16,7 +16,7 @@ html {
 .container {
   display: grid;
   grid-template-columns: 25% 50% 25%;
-  grid-template-rows: 95vh;
+  grid-template-rows: 88vh;
   margin-top: 1rem;
 }
 
@@ -40,7 +40,7 @@ html {
 
 .tweetContainer {
   padding: 1rem;
-  max-height: 85vh;
+  max-height: 88vh;
   overflow: scroll;
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
