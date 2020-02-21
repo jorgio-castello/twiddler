@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  streams.home.forEach(tweet => generateTweet(tweet));
   $('#newTweetListener').click((e) => generateTweet(e.tweet));
 
 });
