@@ -13,6 +13,10 @@ html {
   box-sizing: inherit;
   }
 
+#newTweetListener {
+  display: none;
+}
+
 /* Content container in grid format */
 /* Grid format: 3 columns: (1) Active Users, (2) Twiddler content, (3) Trending hashtags  */
 .container {
