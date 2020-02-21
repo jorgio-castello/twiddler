@@ -31,6 +31,7 @@ function generateTweet(tweet) {
   let message = `: ${tweet.message}`;
   let timeStamp = generateTimeStamp(new Date());
 
+  //Declare jQuery variables and push to DOM
   let $tweet = $('<div></div>');
   $tweet.text(user + message + timeStamp);
   $tweet.appendTo($('body'));
