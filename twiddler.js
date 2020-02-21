@@ -1,7 +1,4 @@
 $(document).ready(function(){
-  // var $body = $('body');
-  // $body.html('');
-
   var index = 0;
   var tweet = streams.home[index];
   generateTweet(tweet);
@@ -43,7 +40,7 @@ function generateTweet(tweet) {
   let timeStamp = generateTimeStamp(new Date());
 
   //Declare jQuery variables and push to DOM
-  let $tweet = $('<div></div>');
+  let $tweet = $('<div class = "tweetElement"></div>');
   $tweet.text(user + message + timeStamp);
   $tweet.appendTo($('.tweetContainer'));
 }
