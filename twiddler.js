@@ -1,3 +1,14 @@
+$(document).ready(function(){
+  var $body = $('body');
+  $body.html('');
+
+  var index = 0;
+  var tweet = streams.home[index];
+  generateTweet(tweet);
+
+
+});
+
 //generateTimeStamp accepts a date
 //generateTimeStamp return a string to include in a new tweet
 function generateTimeStamp(date) {
@@ -36,14 +47,3 @@ function generateTweet(tweet) {
   $tweet.text(user + message + timeStamp);
   $tweet.appendTo($('body'));
 }
-
-$(document).ready(function(){
-  var $body = $('body');
-  $body.html('');
-
-  var index = 0;
-  var tweet = streams.home[index];
-  generateTweet(tweet);
-
-
-});
