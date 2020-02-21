@@ -35,12 +35,14 @@ function generateTimeStamp(date) {
 //generateTweet doesn't return anything
 function generateTweet(tweet) {
   //Declare the inputs of a tweet: user, message, and timeStamp
-  let user = `@${tweet.user}`;
-  let message = `: ${tweet.message}`;
-  let timeStamp = generateTimeStamp(new Date());
+  // let user = `@${tweet.user}`;
+  let $user = $(`<div class = "tweetElementUser">@${tweet.user}</div>`);
+  // let message = `: ${tweet.message}`;
+  // let timeStamp = generateTimeStamp(new Date());
 
   //Declare jQuery variables and push to DOM
+  // let $tweet = $(`<div class = "tweetElement">${$user}</div>`);
   let $tweet = $('<div class = "tweetElement"></div>');
-  $tweet.text(user + message + timeStamp);
+  $user.appendTo($tweet);
   $tweet.appendTo($('.tweetContainer'));
 }
