@@ -37,3 +37,13 @@ html {
   padding: 1em;
   font-weight: 700;
 }
+
+.tweetContainer {
+  padding: 1rem;
+}
+
+.tweetElement {
+  border: 1px solid lightskyblue;
+  border-radius: 5px;
+  padding: 1rem;
+}
