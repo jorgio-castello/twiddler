@@ -46,6 +46,7 @@ html {
   border: 1px solid lightskyblue;
   border-radius: 5px;
   padding: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .tweetElementUser {
