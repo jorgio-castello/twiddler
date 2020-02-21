@@ -13,6 +13,8 @@ html {
   box-sizing: inherit;
   }
 
+/* Content container in grid format */
+/* Grid format: 3 columns: (1) Active Users, (2) Twiddler content, (3) Trending hashtags  */
 .container {
   display: grid;
   grid-template-columns: 25% 50% 25%;
@@ -20,24 +22,29 @@ html {
   margin-top: 1rem;
 }
 
+/* Specify how each grid-column should be placed within the grid-rows */
 #activeUserInfo, #twiddlerContent, #trendingHashtags {
   grid-row: 1 / span 2;
 }
 
-#twiddlerContent {
-  border: 1px solid lightgray;
-  border-radius: 5px;
+/* Format the header of each column, which is text */
+/* twiddlerContent sectionHead receives an extra border on the bottom */
+.sectionHeader {
+  padding: 1em;
+  font-weight: 700;
 }
 
 #twiddlerContent .sectionHeader {
   border-bottom: 1px solid lightgray;
 }
 
-.sectionHeader {
-  padding: 1em;
-  font-weight: 700;
+/* Format the the twiddlerContent container */
+#twiddlerContent {
+  border: 1px solid lightgray;
+  border-radius: 5px;
 }
 
+/* Format the tweetContainer */
 .tweetContainer {
   padding: 1rem;
   max-height: 88vh;
@@ -50,6 +57,7 @@ html {
   display: none;  /* Safari and Chrome */
 }
 
+/* Format the tweetElementContainer */
 .tweetElement {
   border: 1px solid lightskyblue;
   border-radius: 5px;
@@ -57,16 +65,18 @@ html {
   margin-bottom: 0.5rem;
 }
 
+/* Format the the tweetElementUser */
 .tweetElementUser {
   color: lightskyblue;
   font-weight: 700;
-  display: block;
+  display: inline-block;
 }
 
 .tweetElementUser:hover {
   text-decoration: underline;
 }
 
+/* Format the tweetElementMessage and tweetElementTimestamp */
 .tweetElementMessage, .tweetElementTimestamp  {
   margin-top: 0.5rem;
 }
