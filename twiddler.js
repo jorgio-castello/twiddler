@@ -16,11 +16,10 @@ function generateTimeStamp(date) {
   //if hours = 0, hours should equal 12, and amPM should equal AM
   //else if hours > 12, hours should equal hours less 12, and time should be PM
   if(hours > 12) hours -= 12, amPM = 'PM';
-  if(hours === 0) hours = 12, amPM = 'AM';
+  if(hours === 0) hours = 12;
 
   //3. Declare and return formatted timeStamp – ex: Twiddled at 8:07PM on February 20, 2020
-  let timeStamp = ` Twiddled at ${hours}:${minutes} ${amPM} on ${month} ${day}, ${year}`
-  return timeStamp;
+  return ` Twiddled at ${hours}:${minutes} ${amPM} on ${month} ${day}, ${year}`
 }
 
 //generateTweet accepts a tweet from streams.home
