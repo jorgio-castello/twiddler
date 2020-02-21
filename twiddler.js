@@ -1,8 +1,10 @@
 $(document).ready(function(){
-  var index = 0;
-  var tweet = streams.home[index];
-  generateTweet(tweet);
+  // console.log(streams.home.length);
+  // var index = 0;
+  // var tweet = streams.home[index];
+  // generateTweet(tweet);
 
+  streams.home.forEach(tweet => generateTweet(tweet));
 
 });
 
