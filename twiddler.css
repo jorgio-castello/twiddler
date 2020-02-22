@@ -6,6 +6,7 @@ html {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
+  overflow: hidden;
 }
 *, *:before, *:after {
   -webkit-box-sizing: inherit;
@@ -21,14 +22,19 @@ html {
 /* Grid format: 3 columns: (1) Active Users, (2) Twiddler content, (3) Trending hashtags  */
 .container {
   display: grid;
-  grid-template-columns: 25% 50% 25%;
+  grid-template-columns: 20% 50% 20%;
   grid-template-rows: 88vh;
-  margin-top: 1rem;
+  margin: 1rem auto;
+  justify-content: space-evenly;
 }
 
 /* Specify how each grid-column should be placed within the grid-rows */
 #activeUserInfo, #twiddlerContent, #trendingHashtags {
   grid-row: 1 / span 2;
+}
+
+#activeUserInfo, #trendingHashtags {
+  text-align: center;
 }
 
 /* Format the header of each column, which is text */
