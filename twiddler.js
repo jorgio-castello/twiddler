@@ -66,5 +66,5 @@ function displayUsers() {
     $userLI.appendTo($userUL);
   }
 
-  $userUL.appendTo('#activeUserInfo .supplementaryInfo');
+  $userUL.appendTo('#activeUserInfo .userInfo');
 }
