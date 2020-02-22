@@ -1,6 +1,7 @@
 $(document).ready(function(){
   streams.home.forEach(tweet => generateTweet(tweet));
   displayUsers();
+  $('.supplementaryElement button').click(e => showTweets(e));
 
   $('#newTweetListener').click((e) => generateTweet(e.tweet));
 
@@ -36,7 +37,7 @@ function generateTimeStamp(date) {
 //generateTweet doesn't return anything
 function generateTweet(tweet) {
   //Declare the inputs of a tweet: user, message, and timeStamp
-  let $user = $(`<div class = "tweetElementUser">@${tweet.user}</div>`);
+  let $user = $(`<button class = "tweetElementUser">@${tweet.user}</button>`);
   let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
   let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at)}</div>`);
 
@@ -58,10 +59,10 @@ function displayUsers() {
   for(let user in streams.users) {
     let $userLI = $(`<li class = "supplementaryElement"></li>`);
 
-    let $user = $(`<span class = "supplementaryElementID">${user}</span>`);
+    let $user = $(`<span class = "supplementaryElementID">@${user}</span>`);
     let $userTweets = $(`<span class = "supplementaryElementTweets">${streams.users[user].length} tweets</span>`);
 
-    let $button = $('<button class = "userButton"></button>');
+    let $button = $(`<button class = "userButton" id = "${user}"></button>`);
 
     $user.appendTo($button);
     $userTweets.appendTo($button);
@@ -70,4 +71,20 @@ function displayUsers() {
   }
 
   $userUL.appendTo('#activeUserInfo .userInfo');
+}
+
+function showTweets(e) {
+  let user = e.currentTarget.getAttribute('id');
+  let userSelector = $(`#${user}`);
+  let usernames = Object.keys(streams.users);
+
+  $('.tweetContainer').empty();
+  if(userSelector.hasClass('userButtonActive')) {
+    streams.home.forEach(tweet => generateTweet(tweet));
+  } else {
+    usernames.forEach(username => $(`#${username}`).removeClass('userButtonActive'));
+    streams.users[user].forEach(tweet => generateTweet(tweet));
+  }
+
+  $(`#${user}`).toggleClass('userButtonActive');
 }
