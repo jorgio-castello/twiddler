@@ -70,6 +70,12 @@ button:focus, input[type="button"]:focus {
   width: 100%;
 }
 
+#totalTweetsDiv {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
 .userButton {
   border: 1px solid lightgray;
   border-radius: 5px;
