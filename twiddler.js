@@ -3,9 +3,52 @@ $(document).ready(function(){
   displayUsers();
   $('.supplementaryElement button').click(e => showTweets(e));
 
-  $('#newTweetListener').click((e) => generateTweet(e.tweet));
+  $('#newTweetListener').click((e) => showTweets(e.tweet.user));
 
 });
+
+//generateTweet accepts a tweet from streams.home
+//generateTweet pushes the tweet to the DOM
+//generateTweet doesn't return anything
+function generateTweet(tweet) {
+  //Declare the inputs of a tweet: user, message, and timeStamp
+  let $user = $(`<button class = "tweetElementUser">@${tweet.user}</button>`);
+  let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
+  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at)}</div>`);
+
+  //Declare $tweet div
+  let $tweet = $('<div class = "tweetElement"></div>');
+
+  //Append tweet elements to $tweet
+  $user.appendTo($tweet);
+  $message.appendTo($tweet);
+  $timeStamp.appendTo($tweet);
+
+  //Append $tweet to tweetContainer
+  $tweet.prependTo($('.tweetContainer'));
+}
+
+
+function showTweets(e) {
+  let user = typeof e === 'string' ? e : e.currentTarget.getAttribute('id');
+  let userSelector = $(`#${user}`);
+  let usernames = Object.keys(streams.users);
+  let twiddlerTitle = $('#activeTwiddlerTitle');
+
+  $('.tweetContainer').empty();
+  if(userSelector.hasClass('userButtonActive')) {
+    streams.home.forEach(tweet => generateTweet(tweet));
+    twiddlerTitle.text('Home');
+  } else {
+    usernames.forEach(username => $(`#${username}`).removeClass('userButtonActive'));
+    streams.users[user].forEach(tweet => generateTweet(tweet));
+    twiddlerTitle.text(`@${user}`);
+  }
+
+  $(`#${user}`).toggleClass('userButtonActive');
+}
+
+//HELPER FUNCIONS -----------------------------
 
 //generateTimeStamp accepts a date
 //generateTimeStamp return a string to include in a new tweet
@@ -32,27 +75,10 @@ function generateTimeStamp(date) {
   return ` Twiddled at ${hours}:${minutes} ${amPM} on ${month} ${day}, ${year}`
 }
 
-//generateTweet accepts a tweet from streams.home
-//generateTweet pushes the tweet to the DOM
-//generateTweet doesn't return anything
-function generateTweet(tweet) {
-  //Declare the inputs of a tweet: user, message, and timeStamp
-  let $user = $(`<button class = "tweetElementUser">@${tweet.user}</button>`);
-  let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
-  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at)}</div>`);
-
-  //Declare $tweet div
-  let $tweet = $('<div class = "tweetElement"></div>');
-
-  //Append tweet elements to $tweet
-  $user.appendTo($tweet);
-  $message.appendTo($tweet);
-  $timeStamp.appendTo($tweet);
-
-  //Append $tweet to tweetContainer
-  $tweet.prependTo($('.tweetContainer'));
-}
-
+//displayUsers accepts nothing
+//displayUsers pushes a formatted unordered list to the DOM with each user element as an LI
+//Each LI includes a button, that when clicked will display the selected user's timeline
+//displayUsers returns nothing
 function displayUsers() {
   let $userUL = $(`<div class = "supplementaryList"></div>`);
 
@@ -71,23 +97,4 @@ function displayUsers() {
   }
 
   $userUL.appendTo('#activeUserInfo .userInfo');
-}
-
-function showTweets(e) {
-  let user = e.currentTarget.getAttribute('id');
-  let userSelector = $(`#${user}`);
-  let usernames = Object.keys(streams.users);
-  let twiddlerTitle = $('#activeTwiddlerTitle');
-
-  $('.tweetContainer').empty();
-  if(userSelector.hasClass('userButtonActive')) {
-    streams.home.forEach(tweet => generateTweet(tweet));
-    twiddlerTitle.text('Home');
-  } else {
-    usernames.forEach(username => $(`#${username}`).removeClass('userButtonActive'));
-    streams.users[user].forEach(tweet => generateTweet(tweet));
-    twiddlerTitle.text(`@${user}`);
-  }
-
-  $(`#${user}`).toggleClass('userButtonActive');
 }
