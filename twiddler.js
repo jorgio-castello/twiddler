@@ -15,22 +15,7 @@ $(document).ready(function(){
 });
 
 function showTweets(e) {
-  let user = typeof e === 'string' ? e : e.currentTarget.getAttribute('id');
-  let userSelector = $(`#${user}`);
-  let usernames = Object.keys(streams.users);
-  let twiddlerTitle = $('#activeTwiddlerTitle');
 
-  $('.tweetContainer').empty();
-  if(userSelector.hasClass('userButtonActive')) {
-    streams.home.forEach(tweet => generateTweet(tweet));
-    twiddlerTitle.text('Home');
-  } else {
-    usernames.forEach(username => $(`#${username}`).removeClass('userButtonActive'));
-    streams.users[user].forEach(tweet => generateTweet(tweet));
-    twiddlerTitle.text(`@${user}`);
-  }
-
-  $(`#${user}`).toggleClass('userButtonActive');
 }
 
 //HELPER FUNCIONS -----------------------------
