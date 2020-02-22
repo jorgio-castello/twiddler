@@ -78,30 +78,8 @@ function generateTimeStamp(date) {
 //displayUsers returns nothing
 function displayUsers() {
   let $userUL = $(`<div class = "supplementaryList"></div>`);
-
-  for(let user in streams.users) {
-    let $userLI = $(`<li class = "supplementaryElement"></li>`);
-
-    let $user = $(`<span class = "supplementaryElementID">@${user}</span>`);
-    let $userTweets = $(`<span class = "supplementaryElementTweets"><span id = "${user}Tweets">0&nbsp</span>tweets</span>`);
-
-    let $button = $(`<button class = "userButton" id = "${user}"></button>`);
-
-    $user.appendTo($button);
-    $userTweets.appendTo($button);
-    $button.appendTo($userLI);
-    $userLI.appendTo($userUL);
-  }
-
-  let $totalTweetsLI = $(`<li class = "supplementaryElement"></li>`);
-  let $totalTweetsDiv = $(`<div id = "totalTweetsDiv"></div>`);
-  let $totalTitle = $(`<span class = "supplementaryElementID">Total # of tweets</span>`);
-  let $totalTweets = $(`<span class = "supplementaryElementTweets"><span id = "totalTweetsLength">${streams.home.length}&nbsp</span>tweets</span>`);
-
-  $totalTitle.appendTo($totalTweetsDiv);
-  $totalTweets.appendTo($totalTweetsDiv);
-  $totalTweetsDiv.appendTo($totalTweetsLI);
-  $totalTweetsLI.appendTo($userUL);
+  $userUL = generateUserListItems($userUL);
+  $userUL = generateTotalTweetsListItem($userUL);
 
   $userUL.appendTo('#activeUserInfo .userInfo');
 }
@@ -157,4 +135,43 @@ function showTweetsHandler(activeUser) {
 function updateUserButtonNumberOfTweets(user) {
   $(`#${user}Tweets`).text(`${streams.users[user].length}${String.fromCharCode(160)}`);
   $(`#totalTweetsLength`).text(`${streams.home.length}${String.fromCharCode(160)}`);
+}
+
+//Receives an unordered list and appends each user as a list item
+//Returns the updated UL
+function generateUserListItems(unorderedList) {
+  for(let user in streams.users) { //Loop through the users, and create the following for each:
+    let $userLI = $(`<li class = "supplementaryElement"></li>`); //list item element
+    //a button element within each list item element, with an id of the current user, will allow the button to be target
+    //by a jQuery event listener
+    let $button = $(`<button class = "userButton" id = "${user}"></button>`);
+
+    //Declare username and number of tweets as spans to append to the button
+    let $user = $(`<span class = "supplementaryElementID">@${user}</span>`);
+    let $userTweets = $(`<span class = "supplementaryElementTweets"><span id = "${user}Tweets">0&nbsp</span>tweets</span>`);
+
+    $user.appendTo($button);            //append the user variable to the button
+    $userTweets.appendTo($button);      //append the userTweets variable to the button
+    $button.appendTo($userLI);          //append the button to the list item element
+    $userLI.appendTo(unorderedList);    //append the list item element to the unorderedList parameter
+  }
+
+  return unorderedList;
+}
+
+function generateTotalTweetsListItem(unorderedList) {
+  let $totalTweetsLI = $(`<li class = "supplementaryElement"></li>`); //Create a list item element for total # of tweets
+  let $totalTweetsDiv = $(`<div id = "totalTweetsDiv"></div>`);       //Create a total tweets div
+
+  //Declare a variable title: Total number of tweets
+  let $totalTitle = $(`<span class = "supplementaryElementID">Total # of tweets</span>`);
+  //Declare a variable $totalTweets that is the length of the tweets array at streams.home
+  let $totalTweets = $(`<span class = "supplementaryElementTweets"><span id = "totalTweetsLength">${streams.home.length}&nbsp</span>tweets</span>`);
+
+  $totalTitle.appendTo($totalTweetsDiv);            //append totalTitle to totalTweetsDiv
+  $totalTweets.appendTo($totalTweetsDiv);           //append totalTweets to totalTweetsDiv
+  $totalTweetsDiv.appendTo($totalTweetsLI);         //append totalTweetsDiv to list item elmeent
+  $totalTweetsLI.appendTo(unorderedList);           //append list item element to unorderedList parameter
+
+  return unorderedList;
 }
