@@ -14,8 +14,44 @@ $(document).ready(function(){
   });
 });
 
-function showTweets(e) {
+let activeUser; //This global variable will keep track if a button has been clicked
 
+function showTweets(user, tweet) {
+  //Declare jQuery selector and assign it the tweetContainerDiv
+  //Declare string to hold value for CSS activeButtonClass, which will be toggled when button is pressed
+  //Declare jQuery selector assigned to user parameter's button
+  //Declare jQuery selector assigned to #activeTwiddlerTitle
+  //Declare isTweetBool and assign it the bool of whether tweet is defined
+  //Declare usernamesArr and assign it the usernames present streams.users object
+
+  //if active user is undefined, there are 2 conditional handlers
+    //1. if a tweet is present, showTweets() was invoked by a new tweet being generated, generate the tweet to HOME
+    //2. if a tweet isn't present, showTweets() was invoked by a button press, run the following:
+      //2a. Empty the tweet container
+      //2b. Re-assign activeUser to user parameter
+      //2c. Loop through activeUser's tweets and push to DOM
+      //2d. Change pageTitle to activeUser
+      //2e. Add userButtonActive CSS class to userButton
+
+    //else: active user is defined, there are 3 conditional handlers
+      //1. if a tweet is present, and the tweet was made by the active user, generate the tweet to user page
+      //2. if a tweet isn't present, showTweets() was invoked by a button press, run the following:
+        //2a. if the button that was clicked is already active (it has been clicked before):
+        //2a. REASONING: this means the user wants to return to HOME, they clicked on user previously, they click on user
+              //again so that they can remove focus
+          //2a1. Empty the tweet container
+          //2a2. Re-assign active user to undefined
+          //2a3. Remove activeButton CSS class from userButton
+          //2a4. Loop through HOME's tweets and push to DOM
+          //2a5. Change pageTitle to HOME
+        //2b. if the user button was clicked and it isn't already active (it hasn't been clicked before):
+        //2b. REASONING: this could happen in two scenarios, (1) no buttons are currently active (HOME -> User), (2) another button is already active (USER -> USER)
+          //2b1. Empty the tweet container
+          //2b2. Remove activeButtonClass from current activeUser
+          //2b3. Re-assign activeUser to user parameter
+          //2b4. Loop through activeUser's tweets and push to DOM
+          //2b5. Change pageTitle to activeUser
+          //2b6. Add userButtonActive CSS class to userButton
 }
 
 //HELPER FUNCIONS -----------------------------
