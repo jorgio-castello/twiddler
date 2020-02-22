@@ -1,6 +1,6 @@
 $(document).ready(function(){
-  streams.home.forEach(tweet => generateTweet(tweet));
   displayUsers();
+  streams.home.forEach(tweet => generateTweet(tweet));
 
   $('.supplementaryElement button').click(e => {
     let user = e.currentTarget.getAttribute('id');
@@ -80,7 +80,7 @@ function displayUsers() {
     let $userLI = $(`<li class = "supplementaryElement"></li>`);
 
     let $user = $(`<span class = "supplementaryElementID">@${user}</span>`);
-    let $userTweets = $(`<span class = "supplementaryElementTweets">${streams.users[user].length} tweets</span>`);
+    let $userTweets = $(`<span class = "supplementaryElementTweets"><span id = "${user}Tweets">0&nbsp</span>tweets</span>`);
 
     let $button = $(`<button class = "userButton" id = "${user}"></button>`);
 
@@ -112,6 +112,9 @@ function generateTweet(tweet) {
 
   //Append $tweet to tweetContainer
   $tweet.prependTo($('.tweetContainer'));
+
+  //Update # of user tweets in button
+  $(`#${tweet.user}Tweets`).text(`${streams.users[tweet.user].length}${String.fromCharCode(160)}`);
 }
 
 //showTweetsHandler receives an activeUser parameter: activeUser may be a username, or it may be undefined
