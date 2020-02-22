@@ -48,13 +48,13 @@ html {
   border-bottom: 1px solid lightgray;
 }
 
-.supplementaryInfo {
+.userInfo {
   width: 90%;
   margin: 0 auto;
 }
 
 .supplementaryList {
-  background-color:	#F9F6F6;
+  background-color:	#F9F7F7;
   padding: 1rem;
   justify-content: space-around;
   border: 1px solid lightgray;
@@ -68,6 +68,11 @@ html {
   padding: 0.75rem;
   margin-bottom: 0.5rem;
   background-color: white;
+}
+
+.supplementaryElement:hover {
+  background-color: #E4EEFF;
+  border: 1px solid lightblue;
 }
 
 .supplementaryElementID {
