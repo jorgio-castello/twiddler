@@ -22,10 +22,10 @@ html {
 /* Grid format: 3 columns: (1) Active Users, (2) Twiddler content, (3) Trending hashtags  */
 .container {
   display: grid;
-  grid-template-columns: 30% 55%;
+  grid-template-columns: 55% 30%;
   grid-template-rows: 88vh;
   margin: 1rem auto;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 /* Specify how each grid-column should be placed within the grid-rows */
