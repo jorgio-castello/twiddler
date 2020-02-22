@@ -93,6 +93,16 @@ function displayUsers() {
     $userLI.appendTo($userUL);
   }
 
+  let $totalTweetsLI = $(`<li class = "supplementaryElement"></li>`);
+  let $totalTweetsDiv = $(`<div id = "totalTweetsDiv"></div>`);
+  let $totalTitle = $(`<span class = "supplementaryElementID">Total # of tweets</span>`);
+  let $totalTweets = $(`<span class = "supplementaryElementTweets"><span id = "totalTweetsLength">${streams.home.length}&nbsp</span>tweets</span>`);
+
+  $totalTitle.appendTo($totalTweetsDiv);
+  $totalTweets.appendTo($totalTweetsDiv);
+  $totalTweetsDiv.appendTo($totalTweetsLI);
+  $totalTweetsLI.appendTo($userUL);
+
   $userUL.appendTo('#activeUserInfo .userInfo');
 }
 
@@ -146,4 +156,5 @@ function showTweetsHandler(activeUser) {
 //Push updated tweet # to the DOM
 function updateUserButtonNumberOfTweets(user) {
   $(`#${user}Tweets`).text(`${streams.users[user].length}${String.fromCharCode(160)}`);
+  $(`#totalTweetsLength`).text(`${streams.home.length}${String.fromCharCode(160)}`);
 }
