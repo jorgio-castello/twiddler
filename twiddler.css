@@ -63,25 +63,31 @@ html {
 
 .supplementaryElement {
   list-style: none;
+  width: 100%;
+}
+
+.userButton {
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 0.75rem;
   margin-bottom: 0.5rem;
   background-color: white;
+  width: 100%;
 }
 
-.supplementaryElement:hover {
+.userButton:hover {
   background-color: #E4EEFF;
   border: 1px solid lightblue;
 }
 
 .supplementaryElementID {
   color: lightskyblue;
+  display: inline-flex;
+  float: left;
 }
 
 .supplementaryElementTweets {
   display: inline-flex;
-  text-align: right;
   color: gray;
   float: right;
   font-weight: 300;
