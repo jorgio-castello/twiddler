@@ -20,44 +20,26 @@ function showTweets(user, tweet) {
   let userBtnSelector = $(`#${user}`);
   let isTweetBool = tweet !== undefined;
 
-  if(!activeUser) {
-    if(isTweetBool) generateTweet(tweet);
+  if(!activeUser) { //Handle cases when activeUser is undefined
+    if(isTweetBool) generateTweet(tweet); //push tweet to 'Home'
     else {
       activeUser = user;
-      showTweetsHandler(activeUser);
+      showTweetsHandler(activeUser); //Show tweets for activeUser
     }
-  } else {
-    if(isTweetBool && tweet.user === activeUser) generateTweet(tweet);
+  } else { //Handle cases where activeUser is defined
+    if(isTweetBool && tweet.user === activeUser) generateTweet(tweet); //if activeUser tweets, push it to their timeline
     if(!isTweetBool) {
-      if(userBtnSelector.hasClass(activeClass)) {
+      if(userBtnSelector.hasClass(activeClass)) { //if the user clicks on username when it is already active
         userBtnSelector.removeClass(activeClass);
         activeUser = undefined;
-        showTweetsHandler(activeUser);
+        showTweetsHandler(activeUser); //Show tweets for Home
       } else {
         $(`#${activeUser}`).removeClass(activeClass);
         activeUser = user;
-        showTweetsHandler(activeUser);
+        showTweetsHandler(activeUser); //Show tweets for new activeUser
       }
     }
   }
-}
-
-function showTweetsHandler(activeUser) {
-  let tweetContainer = $('.tweetContainer');
-  let activeClass = 'userButtonActive';
-  let userBtnSelector = $(`#${activeUser}`);
-  let twiddlerTitle = $('#activeTwiddlerTitle');
-
-  tweetContainer.empty();
-
-  //Generate user / HOME tweets depending on whether there is an active user
-  (activeUser ? streams.users[activeUser] : streams.home).forEach(tweet => generateTweet(tweet));
-
-  //Generate twiddler title depending on whether there is an activeUser
-  twiddlerTitle.text((activeUser ? `@${activeUser}` : 'Home'));
-
-  //Add active class to button if there is an activeUser
-  if(activeUser) userBtnSelector.addClass(activeClass);
 }
 
 //HELPER FUNCIONS -----------------------------
@@ -130,4 +112,26 @@ function generateTweet(tweet) {
 
   //Append $tweet to tweetContainer
   $tweet.prependTo($('.tweetContainer'));
+}
+
+//showTweetsHandler receives an activeUser parameter: activeUser may be a username, or it may be undefined
+//showTweetHandles does the following
+  //1. Updates the DOM for an activeUser's tweets (if activeUser is defined)
+  //2. Updates the DOM for Home's tweet (if activeUser is undefined)
+function showTweetsHandler(activeUser) {
+  let tweetContainer = $('.tweetContainer');
+  let activeClass = 'userButtonActive';
+  let userBtnSelector = $(`#${activeUser}`);
+  let twiddlerTitle = $('#activeTwiddlerTitle');
+
+  tweetContainer.empty();
+
+  //Generate user / HOME tweets depending on whether there is an active user
+  (activeUser ? streams.users[activeUser] : streams.home).forEach(tweet => generateTweet(tweet));
+
+  //Generate twiddler title depending on whether there is an activeUser
+  twiddlerTitle.text((activeUser ? `@${activeUser}` : 'Home'));
+
+  //Add active class to button if there is an activeUser
+  if(activeUser) userBtnSelector.addClass(activeClass);
 }
