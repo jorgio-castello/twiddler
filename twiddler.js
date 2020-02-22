@@ -7,28 +7,6 @@ $(document).ready(function(){
 
 });
 
-//generateTweet accepts a tweet from streams.home
-//generateTweet pushes the tweet to the DOM
-//generateTweet doesn't return anything
-function generateTweet(tweet) {
-  //Declare the inputs of a tweet: user, message, and timeStamp
-  let $user = $(`<button class = "tweetElementUser">@${tweet.user}</button>`);
-  let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
-  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at)}</div>`);
-
-  //Declare $tweet div
-  let $tweet = $('<div class = "tweetElement"></div>');
-
-  //Append tweet elements to $tweet
-  $user.appendTo($tweet);
-  $message.appendTo($tweet);
-  $timeStamp.appendTo($tweet);
-
-  //Append $tweet to tweetContainer
-  $tweet.prependTo($('.tweetContainer'));
-}
-
-
 function showTweets(e) {
   let user = typeof e === 'string' ? e : e.currentTarget.getAttribute('id');
   let userSelector = $(`#${user}`);
@@ -97,4 +75,25 @@ function displayUsers() {
   }
 
   $userUL.appendTo('#activeUserInfo .userInfo');
+}
+
+//generateTweet accepts a tweet from streams.home
+//generateTweet pushes the tweet to the DOM
+//generateTweet doesn't return anything
+function generateTweet(tweet) {
+  //Declare the inputs of a tweet: user, message, and timeStamp
+  let $user = $(`<button class = "tweetElementUser">@${tweet.user}</button>`);
+  let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
+  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at)}</div>`);
+
+  //Declare $tweet div
+  let $tweet = $('<div class = "tweetElement"></div>');
+
+  //Append tweet elements to $tweet
+  $user.appendTo($tweet);
+  $message.appendTo($tweet);
+  $timeStamp.appendTo($tweet);
+
+  //Append $tweet to tweetContainer
+  $tweet.prependTo($('.tweetContainer'));
 }
