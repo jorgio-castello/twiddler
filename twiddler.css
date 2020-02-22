@@ -22,10 +22,10 @@ html {
 /* Grid format: 3 columns: (1) Active Users, (2) Twiddler content, (3) Trending hashtags  */
 .container {
   display: grid;
-  grid-template-columns: 20% 50% 20%;
+  grid-template-columns: 30% 55%;
   grid-template-rows: 88vh;
   margin: 1rem auto;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 /* Specify how each grid-column should be placed within the grid-rows */
@@ -33,9 +33,9 @@ html {
   grid-row: 1 / span 2;
 }
 
-#activeUserInfo, #trendingHashtags {
+/* #activeUserInfo .sectionHeader, #trendingHashtags .sectionHeader {
   text-align: center;
-}
+} */
 
 /* Format the header of each column, which is text */
 /* twiddlerContent sectionHead receives an extra border on the bottom */
@@ -50,8 +50,36 @@ html {
 
 .supplementaryInfo {
   width: 90%;
-  border: 5px solid blue;
   margin: 0 auto;
+}
+
+.supplementaryList {
+  background-color:	#F9F6F6;
+  padding: 1rem;
+  justify-content: space-around;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
+.supplementaryElement {
+  list-style: none;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background-color: white;
+}
+
+.supplementaryElementID {
+  color: lightskyblue;
+}
+
+.supplementaryElementTweets {
+  display: inline-flex;
+  text-align: right;
+  color: gray;
+  float: right;
+  font-weight: 300;
 }
 
 /* Format the the twiddlerContent container */
