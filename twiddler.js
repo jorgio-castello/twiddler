@@ -1,10 +1,17 @@
 $(document).ready(function(){
   streams.home.forEach(tweet => generateTweet(tweet));
   displayUsers();
-  $('.supplementaryElement button').click(e => showTweets(e));
 
-  $('#newTweetListener').click((e) => showTweets(e.tweet.user));
+  $('.supplementaryElement button').click(e => {
+    let user = e.currentTarget.getAttribute('id');
+    showTweets(user);
+  });
 
+  $('#newTweetListener').click(e => {
+    let tweet = e.tweet;
+    let user = e.tweet.user;
+    showTweets(user, tweet);
+  });
 });
 
 function showTweets(e) {
