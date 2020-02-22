@@ -1,5 +1,7 @@
 $(document).ready(function(){
   streams.home.forEach(tweet => generateTweet(tweet));
+  displayUsers();
+
   $('#newTweetListener').click((e) => generateTweet(e.tweet));
 
 });
@@ -48,4 +50,21 @@ function generateTweet(tweet) {
 
   //Append $tweet to tweetContainer
   $tweet.prependTo($('.tweetContainer'));
+}
+
+function displayUsers() {
+  let $userUL = $(`<div class = "supplementaryList"></div>`);
+
+  for(let user in streams.users) {
+    let $userLI = $(`<li class = "supplementaryElement"></li>`);
+
+    let $user = $(`<span class = "supplementaryElementID">${user}</span>`);
+    let $userTweets = $(`<span class = "supplementaryElementTweets">${streams.users[user].length} tweets</span>`);
+
+    $user.appendTo($userLI);
+    $userTweets.appendTo($userLI);
+    $userLI.appendTo($userUL);
+  }
+
+  $userUL.appendTo('#activeUserInfo .supplementaryInfo');
 }
