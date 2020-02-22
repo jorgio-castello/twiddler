@@ -61,8 +61,11 @@ function displayUsers() {
     let $user = $(`<span class = "supplementaryElementID">${user}</span>`);
     let $userTweets = $(`<span class = "supplementaryElementTweets">${streams.users[user].length} tweets</span>`);
 
-    $user.appendTo($userLI);
-    $userTweets.appendTo($userLI);
+    let $button = $('<button class = "userButton"></button>');
+
+    $user.appendTo($button);
+    $userTweets.appendTo($button);
+    $button.appendTo($userLI);
     $userLI.appendTo($userUL);
   }
 
