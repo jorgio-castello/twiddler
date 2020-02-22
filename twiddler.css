@@ -48,6 +48,12 @@ html {
   border-bottom: 1px solid lightgray;
 }
 
+.supplementaryInfo {
+  width: 90%;
+  border: 5px solid blue;
+  margin: 0 auto;
+}
+
 /* Format the the twiddlerContent container */
 #twiddlerContent {
   border: 1px solid lightgray;
