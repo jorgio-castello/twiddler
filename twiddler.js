@@ -27,8 +27,11 @@ function showTweets(user, tweet) {
       showTweetsHandler(activeUser); //Show tweets for activeUser
     }
   } else { //Handle cases where activeUser is defined
-    if(isTweetBool && tweet.user === activeUser) generateTweet(tweet); //if activeUser tweets, push it to their timeline
-    if(!isTweetBool) {
+    if(isTweetBool) {
+      if(user === activeUser) generateTweet(tweet); //if activeUser tweets, push it to their timeline
+      updateUserButtonNumberOfTweets(user);
+    }
+    else {
       if(userBtnSelector.hasClass(activeClass)) { //if the user clicks on username when it is already active
         userBtnSelector.removeClass(activeClass);
         activeUser = undefined;
@@ -114,7 +117,7 @@ function generateTweet(tweet) {
   $tweet.prependTo($('.tweetContainer'));
 
   //Update # of user tweets in button
-  $(`#${tweet.user}Tweets`).text(`${streams.users[tweet.user].length}${String.fromCharCode(160)}`);
+  updateUserButtonNumberOfTweets(tweet.user);
 }
 
 //showTweetsHandler receives an activeUser parameter: activeUser may be a username, or it may be undefined
@@ -137,4 +140,10 @@ function showTweetsHandler(activeUser) {
 
   //Add active class to button if there is an activeUser
   if(activeUser) userBtnSelector.addClass(activeClass);
+}
+
+//Receives a username
+//Push updated tweet # to the DOM
+function updateUserButtonNumberOfTweets(user) {
+  $(`#${user}Tweets`).text(`${streams.users[user].length}${String.fromCharCode(160)}`);
 }
