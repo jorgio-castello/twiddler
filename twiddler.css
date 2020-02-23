@@ -37,9 +37,6 @@ button:focus, input[type="button"]:focus {
   grid-row: 1 / span 2;
 }
 
-/* #activeUserInfo .sectionHeader, #trendingHashtags .sectionHeader {
-  text-align: center;
-} */
 
 /* Format the header of each column, which is text */
 /* twiddlerContent sectionHead receives an extra border on the bottom */
@@ -50,6 +47,23 @@ button:focus, input[type="button"]:focus {
 
 #twiddlerContent .sectionHeader {
   border-bottom: 1px solid lightgray;
+}
+
+#controlTweetsBtn {
+  float: right;
+  background: lightblue;
+  padding: .25rem 1rem;
+  border: 1px solid #A6B8DB;
+  border-radius: 5px;
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: white;
+}
+
+#controlTweetsBtn:hover {
+  background-color: rgb(111, 200, 230);
+  border: 1px solid rgb(163, 163, 250);
+  cursor: pointer;
 }
 
 .userInfo {
@@ -88,6 +102,7 @@ button:focus, input[type="button"]:focus {
 .userButton:hover {
   background-color: #F4F9FF;
   border: 1px solid #A6B8DB;
+  cursor: pointer;
 }
 
 .userButtonActive {
@@ -152,6 +167,7 @@ button:focus, input[type="button"]:focus {
 
 .tweetElementUser:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
 
 /* Format the tweetElementMessage and tweetElementTimestamp */
