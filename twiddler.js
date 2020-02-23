@@ -1,5 +1,6 @@
 $(document).ready(function(){
-  displayUsers();
+  displayUsers(streams.users, '#activeUserInfo .user', true);
+  displayUsers(streams.tags, '#activeUserInfo .hashtag', false)
   showTweets();
 
   $('.supplementaryElement button').click(e => {
@@ -92,12 +93,12 @@ function generateTimeStamp(date, tweetIdx) {
 //displayUsers pushes a formatted unordered list to the DOM with each user element as an LI
 //Each LI includes a button, that when clicked will display the selected user's timeline
 //displayUsers returns nothing
-function displayUsers() {
-  let $userUL = $(`<div class = "supplementaryList"></div>`);
-  $userUL = generateUserListItems($userUL);
-  $userUL = generateTotalTweetsListItem($userUL);
+function displayUsers(source, destination, showTotalBool) {
+  let $userUL = $(`<ul class = "supplementaryList"></ul>`);
+  $userUL = generateUserListItems(source, $userUL);
+  if(showTotalBool) $userUL = generateTotalTweetsListItem($userUL);
 
-  $userUL.appendTo('#activeUserInfo .userInfo');
+  $userUL.appendTo(destination);
 }
 
 //generateTweet accepts a tweet from streams.home
@@ -167,16 +168,16 @@ function updateUserButtonNumberOfTweets(user) {
 
 //Receives an unordered list and appends each user as a list item
 //Returns the updated UL
-function generateUserListItems(unorderedList) {
-  for(let user in streams.users) { //Loop through the users, and create the following for each:
+function generateUserListItems(source, unorderedList) {
+  for(let item in source) { //Loop through the users / hashtags, and create the following for each:
     let $userLI = $(`<li class = "supplementaryElement"></li>`); //list item element
     //a button element within each list item element, with an id of the current user, will allow the button to be target
     //by a jQuery event listener
-    let $button = $(`<button class = "userButton" id = "${user}"></button>`);
+    let $button = $(`<button class = "userButton" id = "${item}"></button>`);
 
     //Declare username and number of tweets as spans to append to the button
-    let $user = $(`<span class = "supplementaryElementID">@${user}</span>`);
-    let $userTweets = $(`<span class = "supplementaryElementTweets"><span id = "${user}Tweets">0&nbsp</span>tweets</span>`);
+    let $user = $(`<span class = "supplementaryElementID">@${item}</span>`);
+    let $userTweets = $(`<span class = "supplementaryElementTweets"><span id = "${item}Tweets">0&nbsp</span>tweets</span>`);
 
     $user.appendTo($button);            //append the user variable to the button
     $userTweets.appendTo($button);      //append the userTweets variable to the button
