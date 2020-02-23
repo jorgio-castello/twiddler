@@ -107,7 +107,7 @@ function generateTweet(tweet) {
   //Append $tweet to tweetContainer
   $tweet.prependTo($('.tweetContainer'));
 
-  $(`#${uniqueUserID}`).click(() => console.log('Hi'));
+  $(`#${uniqueUserID}`).click(() => showTweets(tweet.user));
 
   //Update # of user tweets in button
   updateUserButtonNumberOfTweets(tweet.user);
