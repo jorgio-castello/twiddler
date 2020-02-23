@@ -14,6 +14,7 @@ streams.users.douglascalhoun = [];
 window.users = Object.keys(streams.users);
 
 let tweetSchedulerBool = false;
+let showNewTweetsBool = true;
 
 // utility function for adding tweets to our data structures
 var addTweet = function(newTweet){
@@ -62,7 +63,7 @@ for(var i = 0; i < 10; i++){
 tweetSchedulerBool = true;
 
 var scheduleNextTweet = function(){
-  generateRandomTweet();
+  if(showNewTweetsBool) generateRandomTweet();
   setTimeout(scheduleNextTweet, Math.random() * 1500);
 };
 scheduleNextTweet();
