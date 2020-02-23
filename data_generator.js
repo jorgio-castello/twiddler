@@ -7,10 +7,11 @@
 window.streams = {};
 streams.home = [];
 streams.users = {};
-streams.users.shawndrost = [];
-streams.users.sharksforcheap = [];
-streams.users.mracus = [];
+streams.tags = {};
 streams.users.douglascalhoun = [];
+streams.users.mracus = [];
+streams.users.sharksforcheap = [];
+streams.users.shawndrost = [];
 window.users = Object.keys(streams.users);
 
 let tweetSchedulerBool = false;
@@ -21,6 +22,14 @@ var addTweet = function(newTweet){
   var username = newTweet.user;
   streams.users[username].push(newTweet);
   streams.home.push(newTweet);
+
+  if(newTweet.tag) {
+    let tag = newTweet.tag;
+    if(!streams.tags[tag[0]]) {
+      streams.tags[tag[0]] = [];
+    }
+    streams.tags[tag[0]].push(tag);
+  }
 };
 
 // utility function
@@ -45,6 +54,7 @@ var generateRandomTweet = function(){
   var tweet = {};
   tweet.user = randomElement(users);
   tweet.message = randomMessage();
+  tweet.tag = findHashtag(tweet.message);
   tweet.created_at = new Date();
   tweet.globalIdx = streams.home.length;
   tweet.localIdx = streams.users[tweet.user].length;
@@ -64,11 +74,11 @@ for(var i = 0; i < 10; i++){
 
 tweetSchedulerBool = true;
 
-var scheduleNextTweet = function(){
-  if(showNewTweetsBool) generateRandomTweet();
-  setTimeout(scheduleNextTweet, Math.random() * 1500);
-};
-scheduleNextTweet();
+// var scheduleNextTweet = function(){
+//   if(showNewTweetsBool) generateRandomTweet();
+//   setTimeout(scheduleNextTweet, Math.random() * 1500);
+// };
+// scheduleNextTweet();
 
 // utility function for letting students add "write a tweet" functionality
 // (note: not used by the rest of this file.)
@@ -81,3 +91,8 @@ var writeTweet = function(message){
   tweet.message = message;
   addTweet(tweet);
 };
+
+function findHashtag(message) {
+  let hashtagRegex = /#\w*[a-zA-Z]\w*/gm;
+  return hashtagRegex.exec(message);
+}
