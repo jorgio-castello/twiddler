@@ -22,6 +22,11 @@ $(document).ready(function(){
     showNewTweetsBool = !showNewTweetsBool;
   });
 
+  $('#backToHome').click(() => {
+    showTweets();
+    $('#backToHome').css('display', 'none');
+  });
+
 });
 
 let activeUser;
@@ -145,7 +150,12 @@ function showTweetsHandler(activeUser) {
   twiddlerTitle.text((activeUser ? `@${activeUser}` : 'Home'));
 
   //Add active class to button if there is an activeUser
-  if(activeUser) userBtnSelector.addClass(activeClass);
+  if(activeUser) {
+    userBtnSelector.addClass(activeClass);
+    $('#backToHome').css('display', 'inline');
+  } else {
+    $('#backToHome').css('display', 'none');
+  }
 }
 
 //Receives a username
