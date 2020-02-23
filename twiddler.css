@@ -49,6 +49,23 @@ button:focus, input[type="button"]:focus {
   border-bottom: 1px solid lightgray;
 }
 
+#backToHome {
+  display: none;
+  border: 1px solid green;
+  background: green;
+  border-radius: 5px;
+  padding: .25rem 1rem;
+  margin-left: .5rem;
+  font-size: 0.8rem;
+  color: white;
+}
+
+#backToHome:hover {
+  background: lightgreen;
+  border:1px solid lightgreen;
+  cursor: pointer;
+}
+
 #controlTweetsBtn {
   float: right;
   background: lightblue;
