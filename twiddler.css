@@ -7,6 +7,7 @@ html {
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
   overflow: hidden;
+  font-size: 1.5vw;
 }
 *, *:before, *:after {
   -webkit-box-sizing: inherit;
@@ -23,18 +24,36 @@ button:focus, input[type="button"]:focus {
 }
 
 /* Content container in grid format */
-/* Grid format: 3 columns: (1) Active Users, (2) Twiddler content, (3) Trending hashtags  */
+/* Grid format: 2 columns: (1) Twiddler content, (2) User / Hashtag info  */
 .container {
   display: grid;
   grid-template-columns: 55% 30%;
-  grid-template-rows: 88vh;
+  grid-auto-rows: 95vh;
+  grid-template-areas: 'Twiddler userHashtag';
   margin: 1rem auto;
   justify-content: space-evenly;
+  overflow: hidden;
 }
 
 /* Specify how each grid-column should be placed within the grid-rows */
-#activeUserInfo, #twiddlerContent, #trendingHashtags {
-  grid-row: 1 / span 2;
+#twiddlerContent {
+  grid-area: Twiddler;
+}
+
+#activeUserInfo {
+  grid-area: userHashtag;
+}
+
+@media (max-width: 800px) {
+  .container {
+    grid-template-areas: 'Twiddler';
+    grid-template-columns: 85%;
+    font-size: 2.25vw;
+  }
+
+  #activeUserInfo {
+    display: none;
+  }
 }
 
 
@@ -43,10 +62,12 @@ button:focus, input[type="button"]:focus {
 .sectionHeader {
   padding: 1em;
   font-weight: 700;
+  font-size: 85%;
 }
 
 #twiddlerContent .sectionHeader {
   border-bottom: 1px solid lightgray;
+  font-size: 90%;
 }
 
 #backToHome {
@@ -54,10 +75,11 @@ button:focus, input[type="button"]:focus {
   border: 1px solid green;
   background: green;
   border-radius: 5px;
-  padding: .25rem 1rem;
+  padding: .3rem 1rem;
   margin-left: .5rem;
-  font-size: 0.8rem;
   color: white;
+  font-size: 65%;
+  text-transform: uppercase;
 }
 
 #backToHome:hover {
@@ -69,12 +91,12 @@ button:focus, input[type="button"]:focus {
 #controlTweetsBtn {
   float: right;
   background: lightblue;
-  padding: .25rem 1rem;
+  padding: .3rem 1rem;
   border: 1px solid #A6B8DB;
   border-radius: 5px;
-  font-weight: 400;
-  font-size: 0.8rem;
   color: white;
+  font-size: 65%;
+  text-transform: uppercase;
 }
 
 #controlTweetsBtn:hover {
@@ -94,6 +116,7 @@ button:focus, input[type="button"]:focus {
   justify-content: space-around;
   border: 1px solid lightgray;
   border-radius: 5px;
+  font-size: 85%;
 }
 
 .supplementaryElement {
@@ -102,18 +125,20 @@ button:focus, input[type="button"]:focus {
 }
 
 #totalTweetsDiv {
-  padding: 0.75rem;
+  padding: 0.1rem 0.5rem;
   margin-bottom: 0.5rem;
   width: 100%;
+  font-size: 80%;
 }
 
 .userButton {
   border: 1px solid lightgray;
   border-radius: 5px;
-  padding: 0.75rem;
+  padding: 0.5rem;
   margin-bottom: 0.5rem;
   background-color: white;
   width: 100%;
+  font-size: 80%;
 }
 
 .userButton:hover {
@@ -180,6 +205,7 @@ button:focus, input[type="button"]:focus {
   background-color: none;
   border: none;
   padding: 0;
+  font-size:85%;
 }
 
 .tweetElementUser:hover {
@@ -188,13 +214,15 @@ button:focus, input[type="button"]:focus {
 }
 
 /* Format the tweetElementMessage and tweetElementTimestamp */
-.tweetElementMessage, .tweetElementTimestamp  {
+.tweetElementMessage  {
   margin-top: 0.5rem;
+  font-size: 75%;
 }
 
 .tweetElementTimestamp {
   color: gray;
   font-family: sans-serif;
-  font-size: 0.8rem;
+  font-size: 65%;
   font-weight: 300;
+  margin-top: 0.5rem;
 }
