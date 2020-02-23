@@ -10,7 +10,9 @@ $(document).ready(function(){
   $('#newTweetListener').click(e => {
       let tweet = e.tweet;
       let user = e.tweet.user;
-      showTweets(user, tweet);
+      let globalTweetIdx = e.tweet.globalIdx;
+      let localTweetIdx = e.tweet.localIdx;
+      showTweets(user, tweet, globalTweetIdx, localTweetIdx);
   });
 
   $('#controlTweetsBtn').click(() => {
@@ -23,20 +25,20 @@ $(document).ready(function(){
 });
 
 let activeUser;
-function showTweets(user, tweet) {
+function showTweets(user, tweet, globalTweetIdx, localTweetIdx) {
   let activeClass = 'userButtonActive';
   let userBtnSelector = $(`#${user}`);
   let isTweetBool = tweet !== undefined;
 
   if(!activeUser) { //Handle cases when activeUser is undefined
-    if(isTweetBool) generateTweet(tweet); //push tweet to 'Home'
+    if(isTweetBool) generateTweet(tweet, globalTweetIdx); //push tweet to 'Home'
     else {
       activeUser = user;
       showTweetsHandler(activeUser); //Show tweets for activeUser
     }
   } else { //Handle cases where activeUser is defined
     if(isTweetBool) {
-      if(user === activeUser) generateTweet(tweet); //if activeUser tweets, push it to their timeline
+      if(user === activeUser) generateTweet(tweet, localTweetIdx); //if activeUser tweets, push it to their timeline
       updateUserButtonNumberOfTweets(user);
     }
     else {
@@ -57,7 +59,7 @@ function showTweets(user, tweet) {
 
 //generateTimeStamp accepts a date
 //generateTimeStamp return a string to include in a new tweet
-function generateTimeStamp(date) {
+function generateTimeStamp(date, tweetIdx) {
   //0. List of full month names to use in a new tweet
   let months = ['January', 'February', 'March', 'April', 'May','June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -77,7 +79,8 @@ function generateTimeStamp(date) {
   if(hours === 0) hours = 12;
 
   //3. Declare and return formatted timeStamp – ex: Twiddled at 8:07PM on February 20, 2020
-  return ` Twiddled at ${hours}:${minutes} ${amPM} on ${month} ${day}, ${year}`
+  let timeStampPrefix = activeUser ? activeUser : 'Twiddle';
+  return `${timeStampPrefix} #${tweetIdx + 1} at ${hours}:${minutes} ${amPM} on ${month} ${day}, ${year}`
 }
 
 //displayUsers accepts nothing
@@ -95,14 +98,14 @@ function displayUsers() {
 //generateTweet accepts a tweet from streams.home
 //generateTweet pushes the tweet to the DOM
 //generateTweet doesn't return anything
-function generateTweet(tweet) {
+function generateTweet(tweet, tweetIdx) {
 
   let uniqueUserID = generateUserTweetID(tweet); //Declare uniqueUserID to allow button to be targeted by eventListener
 
   //Declare the inputs of a tweet: user, message, and timeStamp
   let $user = $(`<button id = "${uniqueUserID}" class = "tweetElementUser">@${tweet.user}</button>`);
   let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
-  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at)}</div>`);
+  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at, tweetIdx)}</div>`);
 
   //Declare $tweet div
   let $tweet = $('<div class = "tweetElement"></div>');
@@ -136,7 +139,7 @@ function showTweetsHandler(activeUser) {
   tweetContainer.empty();
 
   //Generate user / HOME tweets depending on whether there is an active user
-  (activeUser ? streams.users[activeUser] : streams.home).forEach(tweet => generateTweet(tweet));
+  (activeUser ? streams.users[activeUser] : streams.home).forEach((tweet, tweetIdx) => generateTweet(tweet, tweetIdx));
 
   //Generate twiddler title depending on whether there is an activeUser
   twiddlerTitle.text((activeUser ? `@${activeUser}` : 'Home'));
