@@ -85,7 +85,7 @@ function generateTimeStamp(date, tweetIdx) {
 
   //3. Declare and return formatted timeStamp – ex: Twiddled at 8:07PM on February 20, 2020
   let timeStampPrefix = activeUser ? activeUser : 'Twiddle';
-  return `${timeStampPrefix} #${tweetIdx + 1} at ${hours}:${minutes} ${amPM} on ${month} ${day}, ${year}`
+  return `${timeStampPrefix} #${generateLargeNumberFormat(tweetIdx + 1)} at ${hours}:${minutes} ${amPM} on ${month} ${day}, ${year}`
 }
 
 //displayUsers accepts nothing
@@ -161,8 +161,8 @@ function showTweetsHandler(activeUser) {
 //Receives a username
 //Push updated tweet # to the DOM
 function updateUserButtonNumberOfTweets(user) {
-  $(`#${user}Tweets`).text(`${streams.users[user].length}${String.fromCharCode(160)}`);
-  $(`#totalTweetsLength`).text(`${streams.home.length}${String.fromCharCode(160)}`);
+  $(`#${user}Tweets`).text(`${generateLargeNumberFormat(streams.users[user].length)}${String.fromCharCode(160)}`);
+  $(`#totalTweetsLength`).text(`${generateLargeNumberFormat(streams.home.length)}${String.fromCharCode(160)}`);
 }
 
 //Receives an unordered list and appends each user as a list item
@@ -208,4 +208,13 @@ function generateTotalTweetsListItem(unorderedList) {
 //generateUserTweetID generates an ID that can be used in the tweet HTML element
 function generateUserTweetID(tweet) {
   return `${tweet.user}Button${streams.users[tweet.user].length}`
+}
+
+//generateLargeNumberFormatting
+//accepts a number
+//returns a string of a formatted number
+//Ex: 1000 -> 1,000
+
+function generateLargeNumberFormat(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
