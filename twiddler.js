@@ -1,6 +1,6 @@
 $(document).ready(function(){
   displayUsers();
-  streams.home.forEach(tweet => generateTweet(tweet));
+  showTweets();
 
   $('.supplementaryElement button').click(e => {
     let user = e.currentTarget.getAttribute('id');
@@ -8,10 +8,18 @@ $(document).ready(function(){
   });
 
   $('#newTweetListener').click(e => {
-    let tweet = e.tweet;
-    let user = e.tweet.user;
-    showTweets(user, tweet);
+      let tweet = e.tweet;
+      let user = e.tweet.user;
+      showTweets(user, tweet);
   });
+
+  $('#controlTweetsBtn').click(() => {
+    if(showNewTweetsBool) $('#controlTweetsBtn').text('Resume Tweets');
+    else $('#controlTweetsBtn').text('Pause Tweets');
+
+    showNewTweetsBool = !showNewTweetsBool;
+  });
+
 });
 
 let activeUser;
@@ -107,6 +115,8 @@ function generateTweet(tweet) {
   //Append $tweet to tweetContainer
   $tweet.prependTo($('.tweetContainer'));
 
+  //Add event handler to uniqueUserID that invokes showTweets
+  //Passes in the tweet's user as a default parameter
   $(`#${uniqueUserID}`).click(() => showTweets(tweet.user));
 
   //Update # of user tweets in button
