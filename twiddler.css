@@ -28,20 +28,29 @@ button:focus, input[type="button"]:focus {
 .container {
   display: grid;
   grid-template-columns: 55% 30%;
-  grid-auto-rows: 95vh;
+  grid-auto-rows: 96%;
   grid-template-areas: 'Twiddler userHashtag';
   margin: 1rem auto;
   justify-content: space-evenly;
   overflow: hidden;
+  align-content: space-around;
+  max-height: 100vh;
+  padding: 10px;
 }
 
 /* Specify how each grid-column should be placed within the grid-rows */
 #twiddlerContent {
   grid-area: Twiddler;
+  overflow: hidden;
+  /* max-height: 95vh; */
 }
 
 #activeUserInfo {
+  height: 95vh;
   grid-area: userHashtag;
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
 }
 
 @media (max-width: 800px) {
@@ -55,7 +64,6 @@ button:focus, input[type="button"]:focus {
     display: none;
   }
 }
-
 
 /* Format the header of each column, which is text */
 /* twiddlerContent sectionHead receives an extra border on the bottom */
@@ -106,17 +114,37 @@ button:focus, input[type="button"]:focus {
 }
 
 .userInfo {
+  display: flex;
+  flex-shrink: 1;
   width: 90%;
   margin: 0 auto;
+  margin-bottom: 1rem;
+  background-color:	#F9F7F7;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 1px;
+  overflow: scroll;
+  /* min-height: 25vh; */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.userInfo::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+.user {
+  min-height: 12em;
 }
 
 .supplementaryList {
   background-color:	#F9F7F7;
-  padding: 1rem;
+  padding: 0 10px 0 10px;
   justify-content: space-around;
-  border: 1px solid lightgray;
   border-radius: 5px;
   font-size: 85%;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .supplementaryElement {
@@ -125,17 +153,18 @@ button:focus, input[type="button"]:focus {
 }
 
 #totalTweetsDiv {
-  padding: 0.1rem 0.5rem;
-  margin-bottom: 0.5rem;
   width: 100%;
   font-size: 80%;
+  padding: 0 .5rem;
+  padding-bottom: 1.25em;
+  margin-top: 5px;
 }
 
 .userButton {
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 7px;
   background-color: white;
   width: 100%;
   font-size: 80%;
@@ -179,7 +208,8 @@ button:focus, input[type="button"]:focus {
 /* Format the tweetContainer */
 .tweetContainer {
   padding: 1rem;
-  max-height: 88vh;
+  padding-bottom: 75px;
+  max-height: 95vh;
   overflow: scroll;
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
@@ -194,7 +224,7 @@ button:focus, input[type="button"]:focus {
   border: 1px solid lightskyblue;
   border-radius: 5px;
   padding: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
 }
 
 /* Format the the tweetElementUser */
