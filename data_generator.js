@@ -46,6 +46,8 @@ var generateRandomTweet = function(){
   tweet.user = randomElement(users);
   tweet.message = randomMessage();
   tweet.created_at = new Date();
+  tweet.globalIdx = streams.home.length;
+  tweet.localIdx = streams.users[tweet.user].length;
   addTweet(tweet);
 
   if(tweetSchedulerBool) {
