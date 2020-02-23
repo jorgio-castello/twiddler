@@ -88,8 +88,11 @@ function displayUsers() {
 //generateTweet pushes the tweet to the DOM
 //generateTweet doesn't return anything
 function generateTweet(tweet) {
+
+  let uniqueUserID = generateUserTweetID(tweet); //Declare uniqueUserID to allow button to be targeted by eventListener
+
   //Declare the inputs of a tweet: user, message, and timeStamp
-  let $user = $(`<button class = "tweetElementUser">@${tweet.user}</button>`);
+  let $user = $(`<button id = "${uniqueUserID}" class = "tweetElementUser">@${tweet.user}</button>`);
   let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
   let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at)}</div>`);
 
@@ -103,6 +106,8 @@ function generateTweet(tweet) {
 
   //Append $tweet to tweetContainer
   $tweet.prependTo($('.tweetContainer'));
+
+  $(`#${uniqueUserID}`).click(() => console.log('Hi'));
 
   //Update # of user tweets in button
   updateUserButtonNumberOfTweets(tweet.user);
@@ -174,4 +179,10 @@ function generateTotalTweetsListItem(unorderedList) {
   $totalTweetsLI.appendTo(unorderedList);           //append list item element to unorderedList parameter
 
   return unorderedList;
+}
+
+//generateUserTweetID accepts a tweet
+//generateUserTweetID generates an ID that can be used in the tweet HTML element
+function generateUserTweetID(tweet) {
+  return `${tweet.user}Button${streams.users[tweet.user].length}`
 }
