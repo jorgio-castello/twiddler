@@ -125,8 +125,9 @@ function displayUsers(source, destination) {
 //generateTweet pushes the tweet to the DOM
 //generateTweet doesn't return anything
 function generateTweet(tweet, tweetIdx) {
-
-  let uniqueUserID = generateUserTweetID(tweet); //Declare uniqueUserID to allow button to be targeted by eventListener
+  let uniqueTagID;
+  let uniqueUserID = generateTweetUserID(tweet); //Declare uniqueUserID to allow button to be targeted by eventListener
+  if(tweet.tag) uniqueTagID = generateTweetTagID(tweet);
 
   //Declare the inputs of a tweet: user, message, and timeStamp
   let $user = $(`<button id = "${uniqueUserID}" class = "tweetElementUser">@${tweet.user}</button>`);
