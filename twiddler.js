@@ -155,13 +155,17 @@ function showTweetsHandler(activeUser) {
   let userBtnSelector = $(`#${activeUser}`);
   let twiddlerTitle = $('#activeTwiddlerTitle');
 
+  let isTag = activeUser in streams.tags;            //Determine if the activeUser is a tag
+  let source = isTag ? streams.tags : streams.users; //Update streams' source depending on isTag bool
+  let prefix = isTag ? '#' : '@';                    //Update prefix depending on isTag bool
+
   tweetContainer.empty();
 
   //Generate user / HOME tweets depending on whether there is an active user
-  (activeUser ? streams.users[activeUser] : streams.home).forEach((tweet, tweetIdx) => generateTweet(tweet, tweetIdx));
+  (activeUser ? source[activeUser] : streams.home).forEach((tweet, tweetIdx) => generateTweet(tweet, tweetIdx));
 
   //Generate twiddler title depending on whether there is an activeUser
-  twiddlerTitle.text((activeUser ? `@${activeUser}` : 'Home'));
+  twiddlerTitle.text((activeUser ? `${prefix}${activeUser}` : 'Home'));
 
   //Add active class to button if there is an activeUser
   if(activeUser) {
