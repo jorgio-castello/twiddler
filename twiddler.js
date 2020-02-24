@@ -38,6 +38,12 @@ $(document).ready(function(){
 
 let activeUser;
 function showTweets(user, tweet, globalTweetIdx, localTweetIdx) {
+  //Re-assign user to be the tag of a tweet, if the following are true:
+    //1. A new tweet exists
+    //2. The new tweet has a tag
+    //3. The tag of the new tweet is the activeUser
+  if(tweet && tweet.tag && tweet.tag[0] === activeUser) user = tweet.tag[0];
+
   let activeClass = 'userButtonActive';
   let userBtnSelector = $(`#${user}`);
   let isTweetBool = tweet !== undefined;
