@@ -1,6 +1,6 @@
 $(document).ready(function(){
-  displayUsers(streams.users, '#activeUserInfo .user', true);
-  displayUsers(streams.tags, '#activeUserInfo .hashtag', false)
+  displayUsers(streams.users, '#activeUserInfo .user');
+  displayUsers(streams.tags, '#activeUserInfo .hashtag')
   showTweets();
 
   $('#newTweetListener').click(e => {
@@ -88,10 +88,12 @@ function generateTimeStamp(date, tweetIdx) {
 //displayUsers pushes a formatted unordered list to the DOM with each user element as an LI
 //Each LI includes a button, that when clicked will display the selected user's timeline
 //displayUsers returns nothing
-function displayUsers(source, destination, showTotalBool) {
+function displayUsers(source, destination) {
+  let isUser = source === streams.users ? true : false;
+
   let $userUL = $(`<ul class = "supplementaryList"></ul>`);
   $userUL = generateListItems(source, $userUL);
-  if(showTotalBool) $userUL = generateTotalTweetsListItem($userUL);
+  if(isUser) $userUL = generateTotalTweetsListItem($userUL);
 
   $userUL.appendTo(destination);
 }
