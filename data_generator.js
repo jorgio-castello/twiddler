@@ -58,7 +58,8 @@ var generateRandomTweet = function(){
   tweet.tag = findHashtag(tweet.message);
   tweet.created_at = new Date();
   tweet.globalIdx = streams.home.length;
-  tweet.localIdx = streams.users[tweet.user].length;
+  tweet.localUserIdx = streams.users[tweet.user].length;
+  tweet.localTagIdx = tweet.tag ? streams.tags[tweet.tag[0].slice(1)] ? streams.tags[tweet.tag[0].slice(1)].length : 0 : undefined;
   addTweet(tweet);
 
   if(tweetSchedulerBool) {
