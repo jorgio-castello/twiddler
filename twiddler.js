@@ -3,10 +3,10 @@ $(document).ready(function(){
   displayUsers(streams.tags, '#activeUserInfo .hashtag', false)
   showTweets();
 
-  $('.supplementaryElement button').click(e => {
-    let user = e.currentTarget.getAttribute('id');
-    showTweets(user);
-  });
+  // $('.supplementaryElement button').click(e => {
+  //   let user = e.currentTarget.getAttribute('id');
+  //   showTweets(user);
+  // });
 
   $('#newTweetListener').click(e => {
       let tweet = e.tweet;
@@ -187,6 +187,12 @@ function generateListItems(source, unorderedList) {
     $userTweets.appendTo($button);      //append the userTweets variable to the button
     $button.appendTo($userLI);          //append the button to the list item element
     $userLI.appendTo(unorderedList);    //append the list item element to the unorderedList parameter
+
+    //Add a click listener to each button, that will show the tweets for the specified user
+    $button.click(e => {
+      let selection = e.currentTarget.getAttribute('id');
+      showTweets(selection);
+    });
   }
 
   return unorderedList;
