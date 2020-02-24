@@ -154,6 +154,7 @@ function generateTweet(tweet, tweetIdx) {
   //Add event handler to uniqueUserID that invokes showTweets
   //Passes in the tweet's user as a default parameter
   $(`#${uniqueUserID}`).click(() => showTweets(tweet.user));
+  $(`#${uniqueTagID}`).click(() => showTweets(tweet.tag[0]));
 
   //Update # of user tweets in button
   updateUserButtonNumberOfTweets(streams.users, tweet.user);
