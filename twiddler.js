@@ -242,17 +242,20 @@ function generateTotalTweetsListItem(unorderedList) {
 
 //generateUserTweetID accepts a tweet
 //generateUserTweetID generates an ID that can be used in the tweet HTML element
-function generateUserTweetID(tweet) {
-  let source;
-  let destination;
-  if(tweet.tag) {
-    source = streams.tags;
-    destination = tweet.tag[0];
-  } else {
-    source = streams.users;
-    destination = tweet.user;
-  }
-  return `${destination}Button${source[destination].length}`
+function generateTweetUserID(tweet, tweetIdx) {
+  let source = streams.users;
+  let destination = tweet.user;
+  let index = source[destination].indexOf(tweet);
+
+  return `${destination}Button${index + 1}`
+}
+
+function generateTweetTagID(tweet, tweetIdx) {
+  let source = streams.tags;
+  let destination = tweet.tag[0];
+  let index = source[destination].indexOf(tweet);
+
+  return `${destination}Button${index + 1}`
 }
 
 //generateLargeNumberFormatting
