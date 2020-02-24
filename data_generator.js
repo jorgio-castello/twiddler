@@ -25,10 +25,11 @@ var addTweet = function(newTweet){
 
   if(newTweet.tag) {
     let tag = newTweet.tag;
-    if(!streams.tags[tag[0]]) {
-      streams.tags[tag[0]] = [];
+    tag[0] = tag[0].slice(1);               //Remove the # from the first index of the tag array
+    if(!streams.tags[tag[0]]) {             //If streams.tags does not have a property for the current tag
+      streams.tags[tag[0]] = [];              //Create a property for that tag
     }
-    streams.tags[tag[0]].push(tag);
+    streams.tags[tag[0]].push(newTweet);    //Push the newTweet into streams.tags at the property for that tag
   }
 };
 
