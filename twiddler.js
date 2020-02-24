@@ -95,7 +95,7 @@ function generateTimeStamp(date, tweetIdx) {
 //displayUsers returns nothing
 function displayUsers(source, destination, showTotalBool) {
   let $userUL = $(`<ul class = "supplementaryList"></ul>`);
-  $userUL = generateUserListItems(source, $userUL);
+  $userUL = generateListItems(source, $userUL);
   if(showTotalBool) $userUL = generateTotalTweetsListItem($userUL);
 
   $userUL.appendTo(destination);
@@ -168,16 +168,20 @@ function updateUserButtonNumberOfTweets(user) {
 
 //Receives an unordered list and appends each user as a list item
 //Returns the updated UL
-function generateUserListItems(source, unorderedList) {
+function generateListItems(source, unorderedList) {
   for(let item in source) { //Loop through the users / hashtags, and create the following for each:
     let $userLI = $(`<li class = "supplementaryElement"></li>`); //list item element
     //a button element within each list item element, with an id of the current user, will allow the button to be target
     //by a jQuery event listener
     let $button = $(`<button class = "userButton" id = "${item}"></button>`);
 
+    //Define prefix variable that depends on the source
+      //1. If streams.users: prefix = '@'
+      //2. If streams.tags: prefix = '#'
+    let prefix = source === streams.users ? '@' : '#';
     //Declare username and number of tweets as spans to append to the button
-    let $user = $(`<span class = "supplementaryElementID">@${item}</span>`);
-    let $userTweets = $(`<span class = "supplementaryElementTweets"><span id = "${item}Tweets">0&nbsp</span>tweets</span>`);
+    let $user = $(`<span class = "supplementaryElementID">${prefix}${item}</span>`);
+    let $userTweets = $(`<span class = "supplementaryElementTweets"><span id = "${source[item].length}Tweets">0&nbsp</span>tweets</span>`);
 
     $user.appendTo($button);            //append the user variable to the button
     $userTweets.appendTo($button);      //append the userTweets variable to the button
