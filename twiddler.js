@@ -91,11 +91,16 @@ function generateTimeStamp(date, tweetIdx) {
 function displayUsers(source, destination) {
   let isUser = source === streams.users ? true : false;
 
+  $(destination).empty(); //Remove current unordered list element when new list is generated
+
   let $userUL = $(`<ul class = "supplementaryList"></ul>`);
   $userUL = generateListItems(source, $userUL);
   if(isUser) $userUL = generateTotalTweetsListItem($userUL);
 
   $userUL.appendTo(destination);
+
+  //When new list is generated, update for activeUser (add activeClass)
+  if(activeUser) $(`#${activeUser}`).addClass('.userButtonActive');
 }
 
 //generateTweet accepts a tweet from streams.home
