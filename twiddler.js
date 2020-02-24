@@ -57,7 +57,8 @@ function showTweets(user, tweet, globalTweetIdx, localTweetIdx) {
   } else { //Handle cases where activeUser is defined
     if(isTweetBool) {
       if(user === activeUser) generateTweet(tweet, localTweetIdx); //if activeUser tweets, push it to their timeline
-      updateUserButtonNumberOfTweets(user);
+      if(tweet.tag) updateUserButtonNumberOfTweets(streams.tags, tweet.tag[0]);
+      else updateUserButtonNumberOfTweets(streams.users, tweet.user)
     }
     else {
       if(userBtnSelector.hasClass(activeClass)) { //if the user clicks on username when it is already active
@@ -148,7 +149,8 @@ function generateTweet(tweet, tweetIdx) {
   $(`#${uniqueUserID}`).click(() => showTweets(tweet.user));
 
   //Update # of user tweets in button
-  updateUserButtonNumberOfTweets(tweet.user);
+  updateUserButtonNumberOfTweets(streams.users, tweet.user);
+  if(tweet.tag) updateUserButtonNumberOfTweets(streams.tags, tweet.tag[0]);
 }
 
 //showTweetsHandler receives an activeUser parameter: activeUser may be a username, or it may be undefined
@@ -184,8 +186,8 @@ function showTweetsHandler(activeUser) {
 
 //Receives a username
 //Push updated tweet # to the DOM
-function updateUserButtonNumberOfTweets(user) {
-  $(`#${user}Tweets`).text(`${generateLargeNumberFormat(streams.users[user].length)}${String.fromCharCode(160)}`);
+function updateUserButtonNumberOfTweets(source, item) {
+  $(`#${item}Tweets`).text(`${generateLargeNumberFormat(source[item].length)}${String.fromCharCode(160)}`);
   $(`#totalTweetsLength`).text(`${generateLargeNumberFormat(streams.home.length)}${String.fromCharCode(160)}`);
 }
 
