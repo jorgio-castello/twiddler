@@ -3,11 +3,6 @@ $(document).ready(function(){
   displayUsers(streams.tags, '#activeUserInfo .hashtag', false)
   showTweets();
 
-  // $('.supplementaryElement button').click(e => {
-  //   let user = e.currentTarget.getAttribute('id');
-  //   showTweets(user);
-  // });
-
   $('#newTweetListener').click(e => {
       let tweet = e.tweet;
       let user = e.tweet.user;
