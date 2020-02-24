@@ -38,31 +38,19 @@ button:focus, input[type="button"]:focus {
   padding: 10px;
 }
 
-/* Specify how each grid-column should be placed within the grid-rows */
+/* Specify Twiddler Content grid-area and overflow properties */
 #twiddlerContent {
   grid-area: Twiddler;
   overflow: hidden;
-  /* max-height: 95vh; */
 }
 
+/* Specify activeUserInfo grid-area and overflow properties */
 #activeUserInfo {
   height: 95vh;
   grid-area: userHashtag;
   display: flex;
   flex-direction: column;
   align-content: space-around;
-}
-
-@media (max-width: 800px) {
-  .container {
-    grid-template-areas: 'Twiddler';
-    grid-template-columns: 85%;
-    font-size: 2.25vw;
-  }
-
-  #activeUserInfo {
-    display: none;
-  }
 }
 
 /* Format the header of each column, which is text */
@@ -73,13 +61,15 @@ button:focus, input[type="button"]:focus {
   font-size: 85%;
 }
 
+/* Format the Twiddler Content header */
 #twiddlerContent .sectionHeader {
   border-bottom: 1px solid lightgray;
   font-size: 90%;
 }
 
+/* Style the Back to Home button */
 #backToHome {
-  display: none;
+  display: none;                /*Default display of none: display is triggered by user */
   border: 1px solid green;
   background: green;
   border-radius: 5px;
@@ -90,12 +80,14 @@ button:focus, input[type="button"]:focus {
   text-transform: uppercase;
 }
 
+/* Style the Back to Home button when it is hovered*/
 #backToHome:hover {
   background: lightgreen;
   border:1px solid lightgreen;
   cursor: pointer;
 }
 
+/* Style the Pause / Resume tweets button*/
 #controlTweetsBtn {
   float: right;
   background: lightblue;
@@ -107,12 +99,14 @@ button:focus, input[type="button"]:focus {
   text-transform: uppercase;
 }
 
+/* Style the Pause / Resume tweets button when it is hovered */
 #controlTweetsBtn:hover {
   background-color: rgb(111, 200, 230);
   border: 1px solid rgb(163, 163, 250);
   cursor: pointer;
 }
 
+/* These parameters define the content containers of Active Users and Popular Tags */
 .userInfo {
   display: flex;
   flex-shrink: 1;
@@ -124,7 +118,6 @@ button:focus, input[type="button"]:focus {
   border-radius: 5px;
   padding: 1px;
   overflow: scroll;
-  /* min-height: 25vh; */
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
 }
@@ -133,10 +126,12 @@ button:focus, input[type="button"]:focus {
   display: none;  /* Safari and Chrome */
 }
 
+/* This prevents the Active Users section from becoming too small when window size changes */
 .user {
   min-height: 12em;
 }
 
+/* Style the Active User and Popular Tags unordered lists */
 .supplementaryList {
   background-color:	#F9F7F7;
   padding: 0 10px 0 10px;
@@ -147,11 +142,13 @@ button:focus, input[type="button"]:focus {
   flex-shrink: 1;
 }
 
+/* Style the Active User and Popular Tags list elements */
 .supplementaryElement {
   list-style: none;
   width: 100%;
 }
 
+/* Within Active Users, total tweets are shown. This is their styling */
 #totalTweetsDiv {
   width: 100%;
   font-size: 80%;
@@ -160,6 +157,7 @@ button:focus, input[type="button"]:focus {
   margin-top: 5px;
 }
 
+/* Style the button which users can press to display user / tag tweets */
 .userButton {
   border: 1px solid lightgray;
   border-radius: 5px;
@@ -170,28 +168,27 @@ button:focus, input[type="button"]:focus {
   font-size: 80%;
 }
 
+/* Style the button when it is hovered which users can press to display user / tag tweets */
 .userButton:hover {
   background-color: #F4F9FF;
   border: 1px solid #A6B8DB;
   cursor: pointer;
 }
 
+/* Style the button which users can press to display user / tag tweets when it is pressed */
 .userButtonActive {
   background-color: #F4F9FF;
   border: 1px solid #A6B8DB;
 }
 
-.userButtonActive:hover {
-  border: 1px solid #A6B8DB;
-
-}
-
+/*Style the username / tag within the list element of Active Users / Popular Tags  */
 .supplementaryElementID {
   color: lightskyblue;
   display: inline-flex;
   float: left;
 }
 
+/*Style the number of tweets within the list element of Active Users / Popular Tags  */
 .supplementaryElementTweets {
   display: inline-flex;
   color: gray;
@@ -199,13 +196,13 @@ button:focus, input[type="button"]:focus {
   font-weight: 300;
 }
 
-/* Format the the twiddlerContent container */
+/* Style the the twiddlerContent container */
 #twiddlerContent {
   border: 1px solid lightgray;
   border-radius: 5px;
 }
 
-/* Format the tweetContainer */
+/* Style the tweetContainer */
 .tweetContainer {
   padding: 1rem;
   padding-bottom: 75px;
@@ -219,7 +216,7 @@ button:focus, input[type="button"]:focus {
   display: none;  /* Safari and Chrome */
 }
 
-/* Format the tweetElementContainer */
+/* Style the tweetElementContainer */
 .tweetElement {
   border: 1px solid lightskyblue;
   border-radius: 5px;
@@ -227,7 +224,7 @@ button:focus, input[type="button"]:focus {
   margin-bottom: .5rem;
 }
 
-/* Format the the tweetElementUser */
+/* Style the tweetElementUser */
 .tweetElementUser {
   color: lightskyblue;
   font-weight: 700;
@@ -238,11 +235,13 @@ button:focus, input[type="button"]:focus {
   font-size:85%;
 }
 
+/* Style the tweetElementUser when it is hovered */
 .tweetElementUser:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 
+/* Style the tweetTag when it is present */
 .tweetTag {
   font-size: 100%;
 }
@@ -253,10 +252,24 @@ button:focus, input[type="button"]:focus {
   font-size: 75%;
 }
 
+/* Style the tweet timestamp */
 .tweetElementTimestamp {
   color: gray;
   font-family: sans-serif;
   font-size: 65%;
   font-weight: 300;
   margin-top: 0.5rem;
+}
+
+/* Media Queries: removes activeUserInfo column and resizes Twiddler content / font-size */
+@media (max-width: 800px) {
+  .container {
+    grid-template-areas: 'Twiddler';
+    grid-template-columns: 85%;
+    font-size: 2.25vw;
+  }
+
+  #activeUserInfo {
+    display: none;
+  }
 }
