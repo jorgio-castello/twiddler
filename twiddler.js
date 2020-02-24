@@ -181,7 +181,7 @@ function generateListItems(source, unorderedList) {
     let prefix = source === streams.users ? '@' : '#';
     //Declare username and number of tweets as spans to append to the button
     let $user = $(`<span class = "supplementaryElementID">${prefix}${item}</span>`);
-    let $userTweets = $(`<span class = "supplementaryElementTweets"><span id = "${source[item].length}Tweets">0&nbsp</span>tweets</span>`);
+    let $userTweets = $(`<span class = "supplementaryElementTweets"><span id = "${item}Tweets">${source[item].length}&nbsp</span>tweets</span>`);
 
     $user.appendTo($button);            //append the user variable to the button
     $userTweets.appendTo($button);      //append the userTweets variable to the button
