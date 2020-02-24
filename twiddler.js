@@ -243,14 +243,22 @@ function generateTotalTweetsListItem(unorderedList) {
 //generateUserTweetID accepts a tweet
 //generateUserTweetID generates an ID that can be used in the tweet HTML element
 function generateUserTweetID(tweet) {
-  return `${tweet.user}Button${streams.users[tweet.user].length}`
+  let source;
+  let destination;
+  if(tweet.tag) {
+    source = streams.tags;
+    destination = tweet.tag[0];
+  } else {
+    source = streams.users;
+    destination = tweet.user;
+  }
+  return `${destination}Button${source[destination].length}`
 }
 
 //generateLargeNumberFormatting
 //accepts a number
 //returns a string of a formatted number
 //Ex: 1000 -> 1,000
-
 function generateLargeNumberFormat(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
