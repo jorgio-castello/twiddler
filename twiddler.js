@@ -10,7 +10,7 @@ function init() {
   displayUsersOrTags(streams.tags, '#activeUserInfo .hashtag');   //Displays tags in Popular Tags section
   showTweets();                                                   //Shows all current tweets
 }
-
+//---------------------------------------------------------------------------------------------------------------------
 function addEventListeners() {
   newTweetListener();
   addControlBtnListener();
@@ -35,10 +35,13 @@ function newTweetListener() {
       displayUsersOrTags(streams.tags, '#activeUserInfo .hashtag')
     }
 
+    //If there's a tag in the new tweet, & if the tag is the activeSelection, re-assign the user to the activeSelection
+    if(tweet.tag && tweet.tag[0] === activeSelection) user = activeSelection;
+
     showTweets(user, tweet, globalTweetIdx, localTweetIdx, localTagIdx);
   });
 }
-
+//---------------------------------------------------------------------------------------------------------------------
 //Accepts nothing
 //Serves two primary functions:
   //1. Re-assigns the showNewTweetsBool to its opposite
@@ -51,7 +54,7 @@ function addControlBtnListener() {
       showNewTweetsBool = !showNewTweetsBool;
     });
 }
-
+//---------------------------------------------------------------------------------------------------------------------
 //Accepts nothing
 //Serves two primary functions
   //1. When back button is clicked, it shows all tweets
@@ -68,7 +71,7 @@ let activeSelection; //Primary state variable - tracks whether a user / tag has 
 //---------------------------------------------------------------------------------------------------------------------
 // PRIMARY FUNCTIONS --------------------------------------------------------------------------------------------------
 //Accepts the following:
-  //1. TweetOwner - this will be either a username, or a tweet tag array
+  //1. TweetOwner - this will be either a username, or a tweet tag
   //2. Tweet
   //3. Global Tweet Index: what index is the current tweet in global tweets
   //4. Local Tweet Index: what index is the current tweet in user tweets
@@ -78,29 +81,28 @@ let activeSelection; //Primary state variable - tracks whether a user / tag has 
     //1. generatesTweets to the DOM
   //If the state of activeSelection has changed
     //2. invokes showTweetsHandler
+//This function is invoked in two scenarios:
+  //1. A user / tag button has been pressed
+  //2. A new tweet has been created
 function showTweets(tweetOwner, tweet, globalTweetIdx, localTweetIdx, localTagIdx) {
-  //Re-assign user to be the tag of a tweet, if the following are true:
-    //1. A new tweet exists
-    //2. The new tweet has a tag
-    //3. The tag of the new tweet is the activeUser
-  if(tweet && tweet.tag && tweet.tag[0] === activeSelection) tweetOwner = tweet.tag[0];
-
-  let activeClass = 'userButtonActive';
-  let userBtnSelector = $(`#${tweetOwner}`);
-  let isTweetBool = tweet !== undefined;
+  let activeClass = 'userButtonActive';       //CSS class for active buttons
+  let userBtnSelector = $(`#${tweetOwner}`);  //Selects DOM button for user / tag
+  let isTweetBool = tweet !== undefined;      //Determines if there is a tweet or not
 
   if(!activeSelection) { //Handle cases when activeUser is undefined
-    if(isTweetBool) generateTweet(tweet, globalTweetIdx); //push tweet to 'Home'
+    if(isTweetBool) {
+      generateTweet(tweet, globalTweetIdx); //push tweet to 'Home'
+      updateNumberOfTweets(tweet);          //Updates DOM for number of tweets by user / hashtag
+    }
     else {
       activeSelection = tweetOwner;
-      showTweetsHandler(activeSelection); //Show tweets for activeUser
+      showTweetsHandler(activeSelection); //Show tweets for activeSelection
     }
-  } else { //Handle cases where activeUser is defined
+  } else { //Handle cases where activeSelection is defined
     if(isTweetBool) {
-      if(activeSelection in streams.tags) localTweetIdx = localTagIdx;
-      if(tweetOwner === activeSelection) generateTweet(tweet, localTweetIdx); //if activeUser tweets, push it to their timeline
-      if(tweet.tag) updateUserButtonNumberOfTweets(streams.tags, tweet.tag[0]);
-      else updateUserButtonNumberOfTweets(streams.users, tweet.user)
+      if(activeSelection in streams.tags) localTweetIdx = localTagIdx; //if activeSelection is a tag, re-assign localIdx
+      if(tweetOwner === activeSelection) generateTweet(tweet, localTweetIdx); //if by activeSelection, push to timeline
+      updateNumberOfTweets(tweet);  //Updates DOM for number of tweets by user / hashtag
     }
     else {
       if(userBtnSelector.hasClass(activeClass)) { //if the user clicks on username when it is already active
@@ -115,10 +117,55 @@ function showTweets(tweetOwner, tweet, globalTweetIdx, localTweetIdx, localTagId
     }
   }
 }
+//---------------------------------------------------------------------------------------------------------------------
+//showTweetsHandler receives an activeSelection parameter: activeSelection may be a user / tag, or it may be undefined
+//showTweetHandles does the following
+  //1. Updates the DOM for an activeSelection's tweets (if activeSelection is defined)
+  //2. Updates the DOM for Home's tweet (if activeSelection is undefined)
+  function showTweetsHandler(activeSelection) {
+    let tweetContainer = $('.tweetContainer');
+    let activeClass = 'userButtonActive';
+    let userBtnSelector = $(`#${activeSelection}`);
+    let twiddlerTitle = $('#activeTwiddlerTitle');
 
+    let isTag = activeSelection in streams.tags;            //Determine if the activeSelection is a tag
+    let source = isTag ? streams.tags : streams.users;      //Update streams' source depending on isTag bool
+    let prefix = isTag ? '#' : '@';                         //Update prefix depending on isTag bool
+
+    tweetContainer.empty();                                 //Empties the tweet container to prepare for new tweets
+
+    //Generate user / tag / HOME tweets depending on whether there is an activeSelection
+    (activeSelection ? source[activeSelection] : streams.home).forEach((tweet, tweetIdx) => {
+      generateTweet(tweet, tweetIdx);
+    });
+
+    //Generate twiddler title depending on whether there is an activeUser
+    twiddlerTitle.text((activeSelection ? `${prefix}${activeSelection}` : 'Home'));
+
+    //Add active class to button if there is an activeSelection
+    //Add Back To Home Button if there is an activeSelection
+    if(activeSelection) {
+      userBtnSelector.addClass(activeClass);
+      $('#backToHome').css('display', 'inline');
+    } else {
+      $('#backToHome').css('display', 'none');
+    }
+  }
+//---------------------------------------------------------------------------------------------------------------------
 // PRIMARY FUNCTIONS HELPERS ------------------------------------------------------------------------------------------
-
-//HELPER FUNCIONS -----------------------------
+//Accepts a tweet and updates the current number of tweets for the user / tag in the DOM
+function updateNumberOfTweets(tweet) {
+  if(tweet.tag) updateUserButtonNumberOfTweets(streams.tags, tweet.tag[0]);
+  else updateUserButtonNumberOfTweets(streams.users, tweet.user)
+}
+//---------------------------------------------------------------------------------------------------------------------
+//Receives a username
+//Push updated tweet # to the DOM
+function updateUserButtonNumberOfTweets(source, item) {
+  $(`#${item}Tweets`).text(`${generateLargeNumberFormat(source[item].length)}${String.fromCharCode(160)}`);
+  $(`#totalTweetsLength`).text(`${generateLargeNumberFormat(streams.home.length)}${String.fromCharCode(160)}`);
+}
+//---------------------------------------------------------------------------------------------------------------------
 
 //generateTimeStamp accepts a date
 //generateTimeStamp return a string to include in a new tweet
@@ -201,49 +248,11 @@ function generateTweet(tweet, tweetIdx) {
   //Passes in the tweet's user as a default parameter
   $(`#${uniqueUserID}`).click(() => showTweets(tweet.user));
   $(`#${uniqueTagID}`).click(() => showTweets(tweet.tag[0]));
-
-  //Update # of user tweets in button
-  updateUserButtonNumberOfTweets(streams.users, tweet.user);
-  if(tweet.tag) updateUserButtonNumberOfTweets(streams.tags, tweet.tag[0]);
 }
 
-//showTweetsHandler receives an activeUser parameter: activeUser may be a username, or it may be undefined
-//showTweetHandles does the following
-  //1. Updates the DOM for an activeUser's tweets (if activeUser is defined)
-  //2. Updates the DOM for Home's tweet (if activeUser is undefined)
-function showTweetsHandler(activeSelection) {
-  let tweetContainer = $('.tweetContainer');
-  let activeClass = 'userButtonActive';
-  let userBtnSelector = $(`#${activeSelection}`);
-  let twiddlerTitle = $('#activeTwiddlerTitle');
 
-  let isTag = activeSelection in streams.tags;            //Determine if the activeUser is a tag
-  let source = isTag ? streams.tags : streams.users; //Update streams' source depending on isTag bool
-  let prefix = isTag ? '#' : '@';                    //Update prefix depending on isTag bool
 
-  tweetContainer.empty();
 
-  //Generate user / HOME tweets depending on whether there is an active user
-  (activeSelection ? source[activeSelection] : streams.home).forEach((tweet, tweetIdx) => generateTweet(tweet, tweetIdx));
-
-  //Generate twiddler title depending on whether there is an activeUser
-  twiddlerTitle.text((activeSelection ? `${prefix}${activeSelection}` : 'Home'));
-
-  //Add active class to button if there is an activeUser
-  if(activeSelection) {
-    userBtnSelector.addClass(activeClass);
-    $('#backToHome').css('display', 'inline');
-  } else {
-    $('#backToHome').css('display', 'none');
-  }
-}
-
-//Receives a username
-//Push updated tweet # to the DOM
-function updateUserButtonNumberOfTweets(source, item) {
-  $(`#${item}Tweets`).text(`${generateLargeNumberFormat(source[item].length)}${String.fromCharCode(160)}`);
-  $(`#totalTweetsLength`).text(`${generateLargeNumberFormat(streams.home.length)}${String.fromCharCode(160)}`);
-}
 
 //Receives an unordered list and appends each user as a list item
 //Returns the updated UL
