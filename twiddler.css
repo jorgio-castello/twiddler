@@ -243,6 +243,10 @@ button:focus, input[type="button"]:focus {
   cursor: pointer;
 }
 
+.tweetTag {
+  font-size: 100%;
+}
+
 /* Format the tweetElementMessage and tweetElementTimestamp */
 .tweetElementMessage  {
   margin-top: 0.5rem;
