@@ -66,27 +66,39 @@ function addControlBtnListener() {
 // DECLARE GLOBAL VARIABLES -------------------------------------------------------------------------------------------
 let activeSelection; //Primary state variable - tracks whether a user / tag has been selected
 //---------------------------------------------------------------------------------------------------------------------
-function showTweets(user, tweet, globalTweetIdx, localTweetIdx, localTagIdx) {
+// PRIMARY FUNCTIONS --------------------------------------------------------------------------------------------------
+//Accepts the following:
+  //1. TweetOwner - this will be either a username, or a tweet tag array
+  //2. Tweet
+  //3. Global Tweet Index: what index is the current tweet in global tweets
+  //4. Local Tweet Index: what index is the current tweet in user tweets
+  //5. Local Tag Index: what index is the current tweet in tag tweets
+//Does two things:
+  //If activeSelection is undefined, or the activeSelection state has not changed
+    //1. generatesTweets to the DOM
+  //If the state of activeSelection has changed
+    //2. invokes showTweetsHandler
+function showTweets(tweetOwner, tweet, globalTweetIdx, localTweetIdx, localTagIdx) {
   //Re-assign user to be the tag of a tweet, if the following are true:
     //1. A new tweet exists
     //2. The new tweet has a tag
     //3. The tag of the new tweet is the activeUser
-  if(tweet && tweet.tag && tweet.tag[0] === activeSelection) user = tweet.tag[0];
+  if(tweet && tweet.tag && tweet.tag[0] === activeSelection) tweetOwner = tweet.tag[0];
 
   let activeClass = 'userButtonActive';
-  let userBtnSelector = $(`#${user}`);
+  let userBtnSelector = $(`#${tweetOwner}`);
   let isTweetBool = tweet !== undefined;
 
   if(!activeSelection) { //Handle cases when activeUser is undefined
     if(isTweetBool) generateTweet(tweet, globalTweetIdx); //push tweet to 'Home'
     else {
-      activeSelection = user;
+      activeSelection = tweetOwner;
       showTweetsHandler(activeSelection); //Show tweets for activeUser
     }
   } else { //Handle cases where activeUser is defined
     if(isTweetBool) {
       if(activeSelection in streams.tags) localTweetIdx = localTagIdx;
-      if(user === activeSelection) generateTweet(tweet, localTweetIdx); //if activeUser tweets, push it to their timeline
+      if(tweetOwner === activeSelection) generateTweet(tweet, localTweetIdx); //if activeUser tweets, push it to their timeline
       if(tweet.tag) updateUserButtonNumberOfTweets(streams.tags, tweet.tag[0]);
       else updateUserButtonNumberOfTweets(streams.users, tweet.user)
     }
@@ -97,12 +109,14 @@ function showTweets(user, tweet, globalTweetIdx, localTweetIdx, localTagIdx) {
         showTweetsHandler(activeSelection); //Show tweets for Home
       } else {
         $(`#${activeSelection}`).removeClass(activeClass);
-        activeSelection = user;
+        activeSelection = tweetOwner;
         showTweetsHandler(activeSelection); //Show tweets for new activeUser
       }
     }
   }
 }
+
+// PRIMARY FUNCTIONS HELPERS ------------------------------------------------------------------------------------------
 
 //HELPER FUNCIONS -----------------------------
 
