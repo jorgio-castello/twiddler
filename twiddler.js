@@ -131,7 +131,13 @@ function generateTweet(tweet, tweetIdx) {
 
   //Declare the inputs of a tweet: user, message, and timeStamp
   let $user = $(`<button id = "${uniqueUserID}" class = "tweetElementUser">@${tweet.user}</button>`);
-  let $message = $(`<div class = "tweetElementMessage">${tweet.message}</div>`);
+
+  let tweetMessage = tweet.message;
+  if(tweet.tag) {
+    tweetMessage = tweet.message.replace(`#${tweet.tag}`, `<button id = "${uniqueTagID}" class = "tweetTag tweetElementUser">#${tweet.tag[0]}</button>`);
+  }
+
+  let $message = $(`<div class = "tweetElementMessage">${tweetMessage}</div>`);
   let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at, tweetIdx)}</div>`);
 
   //Declare $tweet div
@@ -243,7 +249,7 @@ function generateTotalTweetsListItem(unorderedList) {
 
 //generateUserTweetID accepts a tweet
 //generateUserTweetID generates an ID that can be used in the tweet HTML element
-function generateTweetUserID(tweet, tweetIdx) {
+function generateTweetUserID(tweet) {
   let source = streams.users;
   let destination = tweet.user;
   let index = source[destination].indexOf(tweet);
@@ -251,7 +257,7 @@ function generateTweetUserID(tweet, tweetIdx) {
   return `${destination}Button${index + 1}`
 }
 
-function generateTweetTagID(tweet, tweetIdx) {
+function generateTweetTagID(tweet) {
   let source = streams.tags;
   let destination = tweet.tag[0];
   let index = source[destination].indexOf(tweet);
