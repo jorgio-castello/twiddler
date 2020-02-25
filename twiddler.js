@@ -15,8 +15,7 @@ function addEventListeners() {
   newTweetListener();
   addControlBtnListener();
   addBackBtnListener();
-  $('#activeUserBtn').click(e => chooseDisplayList(e, '#popularTagsBtn', 'user', 'hashtag'));
-  $('#popularTagsBtn').click(e => chooseDisplayList(e, '#activeUserBtn', 'hashtag', 'user'));
+  addListChoiceListener();
 }
 //---------------------------------------------------------------------------------------------------------------------
 // DEFINE EVENT LISTNERS ----------------------------------------------------------------------------------------------
@@ -68,16 +67,9 @@ function addControlBtnListener() {
     });
 }
 //---------------------------------------------------------------------------------------------------------------------
-function chooseDisplayList(event, otherButtonID, classToAdd, classToRemove) {
-  let id = event.currentTarget.getAttribute('id');
-  if(!$(id).hasClass('activeBtn')) {
-    $(otherButtonID).removeClass('activeBtn');
-    $(`#${id}`).addClass('activeBtn');
-    $('.userInfo').removeClass(classToRemove);
-    $('.userInfo').addClass(classToAdd);
-    if(classToAdd === 'hashtag') displayUsersOrTags(streams.tags, `#activeUserInfo .hashtag`);
-    else displayUsersOrTags(streams.users, '#activeUserInfo .user');
-  }
+function addListChoiceListener() {
+  $('#activeUserBtn').click(e => chooseDisplayList(e, '#popularTagsBtn', 'user', 'hashtag'));
+  $('#popularTagsBtn').click(e => chooseDisplayList(e, '#activeUserBtn', 'hashtag', 'user'));
 }
 //---------------------------------------------------------------------------------------------------------------------
 // DECLARE GLOBAL VARIABLES -------------------------------------------------------------------------------------------
@@ -257,6 +249,23 @@ function generateTimeStamp(date, tweetIdx) {
 }
 //---------------------------------------------------------------------------------------------------------------------
 // ACTIVE USER / POPULAR TAG FUNCTIONS and HELPERS --------------------------------------------------------------------
+//Accepts the click event, the ID of the other button, the class to add to the list container, and the class to remove
+//from the list container
+//This function allows the user to choose which list to display
+function chooseDisplayList(event, otherButtonID, activeList, inactiveList) {
+  let id = event.currentTarget.getAttribute('id'); //Determine which button was clicked
+  if(!$(id).hasClass('activeBtn')) {  //if the button that was clicked does not have the activeBtn class
+    $(otherButtonID).removeClass('activeBtn'); //Remove the activeBtn class from the other button
+    $(`#${id}`).addClass('activeBtn');         //Add the activeBtn class to the other button
+    $('.userInfo').removeClass(inactiveList); //Remove the inactiveList class so list is not displayed
+    $('.userInfo').addClass(activeList);      //Add the activeList class so list is display
+
+    //Invoke displayUserOrTags depending on which class is assigned to activeList
+    if(activeList === 'hashtag') displayUsersOrTags(streams.tags, `#activeUserInfo .hashtag`);
+    else displayUsersOrTags(streams.users, '#activeUserInfo .user');
+  }
+}
+//---------------------------------------------------------------------------------------------------------------------
 //displayUsersOrTags accepts the following:
   //1. Source: this is either streams.users or streams.tags
   //2. Destination: this is either Active Users / Popular Tags section of the site
