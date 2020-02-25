@@ -242,6 +242,7 @@ function generateTimeStamp(date, tweetIdx) {
   return `${timeStampPrefix} #${generateLargeNumberFormat(tweetIdx + 1)} at ${hours}:${minutes} ${amPM} on ${month} ${day}, ${year}`
 }
 //---------------------------------------------------------------------------------------------------------------------
+// ACTIVE USER / POPULAR TAG FUNCTIONS and HELPERS --------------------------------------------------------------------
 //displayUsersOrTags accepts the following:
   //1. Source: this is either streams.users or streams.tags
   //2. Destination: this is either Active Users / Popular Tags section of the site
@@ -262,18 +263,13 @@ function displayUsersOrTags(source, destination) {
   //When new list is generated, update for activeUser (add activeClass)
   if(activeSelection) $(`#${activeSelection}`).addClass('userButtonActive');
 }
-
-
-
-
-
-
-
+//---------------------------------------------------------------------------------------------------------------------
 //Receives an unordered list and appends each user as a list item
 //Returns the updated UL
 function generateListItems(source, unorderedList) {
   for(let item in source) { //Loop through the users / hashtags, and create the following for each:
     let $userLI = $(`<li class = "supplementaryElement"></li>`); //list item element
+
     //a button element within each list item element, with an id of the current user, will allow the button to be target
     //by a jQuery event listener
     let $button = $(`<button class = "userButton" id = "${item}"></button>`);
@@ -300,7 +296,7 @@ function generateListItems(source, unorderedList) {
 
   return unorderedList;
 }
-
+//---------------------------------------------------------------------------------------------------------------------
 function generateTotalTweetsListItem(unorderedList) {
   let $totalTweetsLI = $(`<li class = "supplementaryElement"></li>`); //Create a list item element for total # of tweets
   let $totalTweetsDiv = $(`<div id = "totalTweetsDiv"></div>`);       //Create a total tweets div
@@ -317,8 +313,6 @@ function generateTotalTweetsListItem(unorderedList) {
 
   return unorderedList;
 }
-
-
 //---------------------------------------------------------------------------------------------------------------------
 //Accepts a tweet and updates the current number of tweets for the user / tag in the DOM
 function updateNumberOfTweets(tweet) {
@@ -332,10 +326,7 @@ function updateUserButtonNumberOfTweets(source, item) {
   $(`#${item}Tweets`).text(`${generateLargeNumberFormat(source[item].length)}${String.fromCharCode(160)}`);
   $(`#totalTweetsLength`).text(`${generateLargeNumberFormat(streams.home.length)}${String.fromCharCode(160)}`);
 }
-
-
-
-
+//---------------------------------------------------------------------------------------------------------------------
 //generateLargeNumberFormatting
 //accepts a number
 //returns a string of a formatted number
@@ -343,3 +334,4 @@ function updateUserButtonNumberOfTweets(source, item) {
 function generateLargeNumberFormat(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+//---------------------------------------------------------------------------------------------------------------------
