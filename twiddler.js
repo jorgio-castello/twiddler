@@ -152,21 +152,70 @@ function showTweets(tweetOwner, tweet, globalTweetIdx, localTweetIdx, localTagId
     }
   }
 //---------------------------------------------------------------------------------------------------------------------
-// PRIMARY FUNCTIONS HELPERS ------------------------------------------------------------------------------------------
-//Accepts a tweet and updates the current number of tweets for the user / tag in the DOM
-function updateNumberOfTweets(tweet) {
-  if(tweet.tag) updateUserButtonNumberOfTweets(streams.tags, tweet.tag[0]);
-  else updateUserButtonNumberOfTweets(streams.users, tweet.user)
-}
-//---------------------------------------------------------------------------------------------------------------------
-//Receives a username
-//Push updated tweet # to the DOM
-function updateUserButtonNumberOfTweets(source, item) {
-  $(`#${item}Tweets`).text(`${generateLargeNumberFormat(source[item].length)}${String.fromCharCode(160)}`);
-  $(`#totalTweetsLength`).text(`${generateLargeNumberFormat(streams.home.length)}${String.fromCharCode(160)}`);
-}
-//---------------------------------------------------------------------------------------------------------------------
+// GENERATE TWEET FUNCTION AND HELPERS --------------------------------------------------------------------------------
+//generateTweet accepts a tweet and the tweet's index
+//generateTweet pushes the tweet to the DOM
+function generateTweet(tweet, tweetIdx) {
+  //Declare $tweet div
+  let $tweet = $('<div class = "tweetElement"></div>');
 
+  //Generate uniqueID for eventListeners
+  let uniqueTagID;
+  let uniqueUserID = generateTweetUserID(tweet); //Declare uniqueUserID to allow button to be targeted by eventListener
+  if(tweet.tag) uniqueTagID = generateTweetTagID(tweet);
+
+  //Declare the inputs of a tweet: user, message, and timeStamp
+  let $user = createUserButton(uniqueUserID, tweet.user);
+  let $tweetMessage = createTweetMessage(uniqueTagID, tweet);
+  let $timeStamp = createTimeStamp(tweet, tweetIdx);
+
+  //Append elements to $tweet
+  $user.appendTo($tweet);
+  $tweetMessage.appendTo($tweet);
+  $timeStamp.appendTo($tweet);
+
+  //Append $tweet to tweetContainer
+  $tweet.prependTo($('.tweetContainer'));
+
+  //Add event handler to uniqueUserID that invokes showTweets
+  $(`#${uniqueUserID}`).click(() => showTweets(tweet.user));
+  $(`#${uniqueTagID}`).click(() => showTweets(tweet.tag[0]));
+}
+//---------------------------------------------------------------------------------------------------------------------
+//generateUserTweetID accepts a tweet
+//generateUserTweetID generates an ID that can be used in the tweet HTML element
+function generateTweetUserID(tweet) {
+  let source = streams.users;
+  let destination = tweet.user;
+  let index = source[destination].indexOf(tweet);
+
+  return `${destination}Button${index + 1}`
+}
+//---------------------------------------------------------------------------------------------------------------------
+function generateTweetTagID(tweet) {
+  let source = streams.tags;
+  let destination = tweet.tag[0];
+  let index = source[destination].indexOf(tweet);
+
+  return `${destination}Button${index + 1}`
+}
+//---------------------------------------------------------------------------------------------------------------------
+function createUserButton(uniqueUserID, user) {
+  return $(`<button id = "${uniqueUserID}" class = "tweetElementUser">@${user}</button>`);
+}
+//---------------------------------------------------------------------------------------------------------------------
+function createTweetMessage(uniqueTagID, tweet) {
+  let tweetMessage = tweet.message;
+  if(tweet.tag) {
+    tweetMessage = tweet.message.replace(`#${tweet.tag}`, `<button id = "${uniqueTagID}" class = "tweetTag tweetElementUser">#${tweet.tag[0]}</button>`);
+  }
+  return $(`<div class = "tweetElementMessage">${tweetMessage}</div>`);
+}
+//---------------------------------------------------------------------------------------------------------------------
+function createTimeStamp(tweet, index) {
+  return $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at, index)}</div>`);
+}
+//---------------------------------------------------------------------------------------------------------------------
 //generateTimeStamp accepts a date
 //generateTimeStamp return a string to include in a new tweet
 function generateTimeStamp(date, tweetIdx) {
@@ -192,7 +241,7 @@ function generateTimeStamp(date, tweetIdx) {
   let timeStampPrefix = activeSelection ? activeSelection : 'Twiddle';
   return `${timeStampPrefix} #${generateLargeNumberFormat(tweetIdx + 1)} at ${hours}:${minutes} ${amPM} on ${month} ${day}, ${year}`
 }
-
+//---------------------------------------------------------------------------------------------------------------------
 //displayUsersOrTags accepts the following:
   //1. Source: this is either streams.users or streams.tags
   //2. Destination: this is either Active Users / Popular Tags section of the site
@@ -214,41 +263,7 @@ function displayUsersOrTags(source, destination) {
   if(activeSelection) $(`#${activeSelection}`).addClass('userButtonActive');
 }
 
-//generateTweet accepts a tweet from streams.home
-//generateTweet pushes the tweet to the DOM
-//generateTweet doesn't return anything
-function generateTweet(tweet, tweetIdx) {
-  let uniqueTagID;
-  let uniqueUserID = generateTweetUserID(tweet); //Declare uniqueUserID to allow button to be targeted by eventListener
-  if(tweet.tag) uniqueTagID = generateTweetTagID(tweet);
 
-  //Declare the inputs of a tweet: user, message, and timeStamp
-  let $user = $(`<button id = "${uniqueUserID}" class = "tweetElementUser">@${tweet.user}</button>`);
-
-  let tweetMessage = tweet.message;
-  if(tweet.tag) {
-    tweetMessage = tweet.message.replace(`#${tweet.tag}`, `<button id = "${uniqueTagID}" class = "tweetTag tweetElementUser">#${tweet.tag[0]}</button>`);
-  }
-
-  let $message = $(`<div class = "tweetElementMessage">${tweetMessage}</div>`);
-  let $timeStamp = $(`<div class = "tweetElementTimestamp">${generateTimeStamp(tweet.created_at, tweetIdx)}</div>`);
-
-  //Declare $tweet div
-  let $tweet = $('<div class = "tweetElement"></div>');
-
-  //Append tweet elements to $tweet
-  $user.appendTo($tweet);
-  $message.appendTo($tweet);
-  $timeStamp.appendTo($tweet);
-
-  //Append $tweet to tweetContainer
-  $tweet.prependTo($('.tweetContainer'));
-
-  //Add event handler to uniqueUserID that invokes showTweets
-  //Passes in the tweet's user as a default parameter
-  $(`#${uniqueUserID}`).click(() => showTweets(tweet.user));
-  $(`#${uniqueTagID}`).click(() => showTweets(tweet.tag[0]));
-}
 
 
 
@@ -303,23 +318,23 @@ function generateTotalTweetsListItem(unorderedList) {
   return unorderedList;
 }
 
-//generateUserTweetID accepts a tweet
-//generateUserTweetID generates an ID that can be used in the tweet HTML element
-function generateTweetUserID(tweet) {
-  let source = streams.users;
-  let destination = tweet.user;
-  let index = source[destination].indexOf(tweet);
 
-  return `${destination}Button${index + 1}`
+//---------------------------------------------------------------------------------------------------------------------
+//Accepts a tweet and updates the current number of tweets for the user / tag in the DOM
+function updateNumberOfTweets(tweet) {
+  if(tweet.tag) updateUserButtonNumberOfTweets(streams.tags, tweet.tag[0]);
+  else updateUserButtonNumberOfTweets(streams.users, tweet.user)
+}
+//---------------------------------------------------------------------------------------------------------------------
+//Receives a username
+//Push updated tweet # to the DOM
+function updateUserButtonNumberOfTweets(source, item) {
+  $(`#${item}Tweets`).text(`${generateLargeNumberFormat(source[item].length)}${String.fromCharCode(160)}`);
+  $(`#totalTweetsLength`).text(`${generateLargeNumberFormat(streams.home.length)}${String.fromCharCode(160)}`);
 }
 
-function generateTweetTagID(tweet) {
-  let source = streams.tags;
-  let destination = tweet.tag[0];
-  let index = source[destination].indexOf(tweet);
 
-  return `${destination}Button${index + 1}`
-}
+
 
 //generateLargeNumberFormatting
 //accepts a number
