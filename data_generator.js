@@ -78,12 +78,16 @@ var generateRandomTweet = function(){
   addTweet(tweet);
 
   if(tweetSchedulerBool) {  //After page has been loaded, this bool will allow the eventListener to fire
+    clickNewTweetListener(tweet);
+  }
+};
+
+function clickNewTweetListener(tweet) {
     //Create a click event to simulate on the #newTweetListener div and pass along the new tweet in the event object
     let e = jQuery.Event('click');          //1. Declare variable e that represents a 'click' event in jQuery
     e.tweet = tweet;                        //2. Add the newly generated tweet as a property to this event
     jQuery('#newTweetListener').trigger(e); //3. Trigger the click event on #newTweetListener
-  }
-};
+}
 
 for(var i = 0; i < 10; i++){
   generateRandomTweet();
@@ -114,3 +118,35 @@ function findHashtag(message) {
   let hashtagRegex = /#\w*[a-zA-Z]\w*/gm;
   return hashtagRegex.exec(message);
 }
+
+//Listens for form submit, and creates new tweet
+$(document).on('submit', '#userTweetForm', (e) => {
+  e.preventDefault();                                     //Prevents page refresh
+  let userInput = $('#userTweetForm').serializeArray();   //Stores userInput from form in an array
+
+  //Borrowed logic from generateRandomTweet
+  let tweet = {};
+  tweet.user = userInput[0].value;
+  if(!streams.users[tweet.user]) streams.users[tweet.user] = []; //if the user hasn't tweeted before, create user array
+  tweet.message = userInput[1].value;
+  tweet.tag = findHashtag(tweet.message);
+  tweet.created_at = new Date();
+  tweet.globalIdx = streams.home.length;
+  tweet.localUserIdx = streams.users[tweet.user].length;
+
+  tweet.localTagIdx;
+  if(tweet.tag) {
+    let tagKey = tweet.tag[0].slice(1);
+    if(tagKey in streams.tags) {
+      tweet.localTagIdx = streams.tags[tagKey].length;
+    } else {
+      tweet.localTagIdx = 0;
+    }
+  }
+
+  addTweet(tweet);                          //Add tweet to array
+  clickNewTweetListener(tweet);             //click the tweet listener to push tweet to the DOM
+
+  $('#usernameInput').val(tweet.user);      //Keep the user's selected username in the field, so they don't type it again
+  $('#tweetInput').val('');                 //Reset the tweetInput field so they can add a new tweet
+});
