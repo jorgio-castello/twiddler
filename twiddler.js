@@ -111,7 +111,7 @@ function showTweets(tweetOwner, tweet, globalTweetIdx, localTweetIdx, localTagId
       updateNumberOfTweets(tweet);  //Updates DOM for number of tweets by user / hashtag
     }
     else {
-      if(userBtnSelector.hasClass(activeClass)) { //if the user clicks on username when it is already active
+      if(tweetOwner === activeSelection) { //if the user clicks on username or tag when its the activeSelection
         userBtnSelector.removeClass(activeClass);
         activeSelection = undefined;
         showTweetsHandler(activeSelection); //Show tweets for Home
@@ -164,12 +164,10 @@ function showTweets(tweetOwner, tweet, globalTweetIdx, localTweetIdx, localTagId
 function generateTweet(tweet, tweetIdx) {
   //Declare $tweet div
   let $tweet = $('<div class = "tweetElement"></div>');
-
   //Generate uniqueID for eventListeners
   let uniqueTagID;
   let uniqueUserID = generateTweetUserID(tweet); //Declare uniqueUserID to allow button to be targeted by eventListener
   if(tweet.tag) uniqueTagID = generateTweetTagID(tweet);
-
   //Declare the inputs of a tweet: user, message, and timeStamp
   let $user = createUserButton(uniqueUserID, tweet.user);
   let $tweetMessage = createTweetMessage(uniqueTagID, tweet);
