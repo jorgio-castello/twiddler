@@ -273,3 +273,60 @@ button:focus, input[type="button"]:focus {
     display: none;
   }
 }
+
+/* Style the Tweet Form */
+#userTweetForm {
+  width: 90%;
+  margin: 0 auto;
+  background: #F9F7F7;
+  padding: 2vh;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Style the Input Container for the Form */
+.inputContainer {
+  height: 5vh;
+  font-size: 65%;
+  line-height: 4vh;
+}
+
+/* Style the input label text */
+label {
+  font-size: 105%;
+}
+
+/* Style the input element */
+input {
+  float: right;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  height: 4vh;
+  margin-left: 5px;
+  width: 60%;
+}
+
+/* Style the input element */
+input:focus {
+  outline: none;
+}
+
+/* Style the Tweet Form Submit Button */
+#userFormSubmit {
+  float: right;
+  background: lightblue;
+  padding: .3rem 1rem;
+  border: 1px solid #A6B8DB;
+  border-radius: 5px;
+  color: white;
+  font-size: 65%;
+  text-transform: uppercase;
+}
+
+/* Style the Tweet Form Submit Button when Hovered */
+#userFormSubmit:hover {
+  background-color: rgb(111, 200, 230);
+  border: 1px solid rgb(163, 163, 250);
+  cursor: pointer;
+}
