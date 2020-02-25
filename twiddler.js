@@ -15,6 +15,8 @@ function addEventListeners() {
   newTweetListener();
   addControlBtnListener();
   addBackBtnListener();
+  $('#activeUserBtn').click(e => chooseDisplayList(e, '#popularTagsBtn', 'user', 'hashtag'));
+  $('#popularTagsBtn').click(e => chooseDisplayList(e, '#activeUserBtn', 'hashtag', 'user'));
 }
 //---------------------------------------------------------------------------------------------------------------------
 // DEFINE EVENT LISTNERS ----------------------------------------------------------------------------------------------
@@ -64,6 +66,18 @@ function addControlBtnListener() {
       showTweets();
       $('#backToHome').css('display', 'none');
     });
+}
+//---------------------------------------------------------------------------------------------------------------------
+function chooseDisplayList(event, otherButtonID, classToAdd, classToRemove) {
+  let id = event.currentTarget.getAttribute('id');
+  if(!$(id).hasClass('activeBtn')) {
+    $(otherButtonID).removeClass('activeBtn');
+    $(`#${id}`).addClass('activeBtn');
+    $('.userInfo').removeClass(classToRemove);
+    $('.userInfo').addClass(classToAdd);
+    if(classToAdd === 'hashtag') displayUsersOrTags(streams.tags, `#activeUserInfo .hashtag`);
+    else displayUsersOrTags(streams.users, '#activeUserInfo .user');
+  }
 }
 //---------------------------------------------------------------------------------------------------------------------
 // DECLARE GLOBAL VARIABLES -------------------------------------------------------------------------------------------
